@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
-import { Search, Filter, Plus, Clock, BookOpen, Users, Star, Calendar, User } from 'lucide-react-native';
+import { Search, ListFilter as Filter, Plus, Clock, BookOpen, Users, Star, Calendar, User } from 'lucide-react-native';
 import { Image } from 'expo-image';
 import { mockLearningPaths } from '@/data/mockData';
 import { LearningPath } from '@/types/learning';
