@@ -15,13 +15,18 @@ export interface Lesson {
       correctAnswer: number;
     }>;
   };
+  createdBy: string; // username of creator
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Course {
   id: string;
   title: string;
   description: string;
+  objective: string; // main learning objective
   instructor: string;
+  createdBy: string; // username of creator
   prerequisites: string[];
   lessons: Lesson[];
   rating: number;
@@ -50,6 +55,7 @@ export interface LearningPath {
   totalCourses: number;
   progress: number; // 0-100
   image: string;
+  createdBy: string; // username of creator
   createdAt: string;
   updatedAt: string;
 }
