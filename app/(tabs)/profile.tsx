@@ -1,8 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable, Alert } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
 import { User, Settings, BookOpen, Award, Bell, HelpCircle, LogOut, ChevronRight, Edit } from "lucide-react-native";
+import { Alert } from "react-native";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
+import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
+import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 
 export default function ProfileScreen() {
 	const { user, signOut } = useAuth();
@@ -38,205 +47,99 @@ export default function ProfileScreen() {
 	];
 
 	return (
-		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-			<View style={styles.header}>
-				<Text style={styles.headerTitle}>Profile</Text>
-			</View>
+		<Box className="flex-1 bg-background-0">
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<VStack space="lg" className="pb-24">
+					{/* Header */}
+					<Box className="px-6 pt-16 pb-6">
+						<Heading size="2xl" className="text-typography-900">
+							Profile
+						</Heading>
+					</Box>
 
-			<View style={styles.profileSection}>
-				<View style={styles.avatarContainer}>
-					<View style={styles.avatar}>
-						<Text style={styles.avatarText}>{user?.email?.charAt(0).toUpperCase() || "U"}</Text>
-					</View>
-					<Pressable style={styles.editAvatarButton}>
-						<Edit size={16} color="#6366f1" />
-					</Pressable>
-				</View>
+					{/* Profile Section */}
+					<VStack space="lg" className="px-6 items-center">
+						<Box className="relative">
+							<Avatar size="2xl" className="bg-primary-500">
+								<AvatarFallbackText className="text-typography-0 font-semibold text-2xl">
+									{user?.email?.charAt(0).toUpperCase() || "U"}
+								</AvatarFallbackText>
+							</Avatar>
+							<Button 
+								size="sm" 
+								variant="outline" 
+								className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full p-0"
+							>
+								<ButtonIcon as={Edit} size={16} />
+							</Button>
+						</Box>
 
-				<Text style={styles.userName}>{user?.email?.split("@")[0] || "User"}</Text>
-				<Text style={styles.userEmail}>{user?.email}</Text>
+						<VStack className="items-center">
+							<Heading size="xl" className="text-typography-900">
+								{user?.email?.split("@")[0] || "User"}
+							</Heading>
+							<Text className="text-typography-600">{user?.email}</Text>
+						</VStack>
 
-				<View style={styles.statsContainer}>
-					{profileStats.map((stat) => (
-						<View key={stat.label} style={styles.statItem}>
-							<stat.icon size={20} color="#6366f1" />
-							<Text style={styles.statValue}>{stat.value}</Text>
-							<Text style={styles.statLabel}>{stat.label}</Text>
-						</View>
-					))}
-				</View>
-			</View>
+						<HStack space="lg">
+							{profileStats.map((stat) => (
+								<VStack key={stat.label} className="items-center flex-1">
+									<stat.icon size={20} color="#6366f1" />
+									<Heading size="lg" className="text-typography-900 mt-2">
+										{stat.value}
+									</Heading>
+									<Text className="text-xs text-typography-600 text-center">
+										{stat.label}
+									</Text>
+								</VStack>
+							))}
+						</HStack>
+					</VStack>
 
-			<View style={styles.menuSection}>
-				{menuItems.map((item) => (
-					<Pressable key={item.title} style={styles.menuItem} onPress={item.onPress}>
-						<View style={styles.menuItemLeft}>
-							<View style={styles.menuIconContainer}>
-								<item.icon size={20} color="#6366f1" />
-							</View>
-							<Text style={styles.menuItemText}>{item.title}</Text>
-						</View>
-						<ChevronRight size={20} color="#9ca3af" />
-					</Pressable>
-				))}
-			</View>
+					{/* Menu Section */}
+					<VStack space="xs" className="px-6">
+						{menuItems.map((item) => (
+							<Button 
+								key={item.title} 
+								variant="link" 
+								className="justify-start p-4 border-b border-outline-100"
+								onPress={item.onPress}
+							>
+								<HStack className="justify-between items-center flex-1">
+									<HStack space="md" className="items-center">
+										<Box className="w-10 h-10 bg-background-100 rounded-full items-center justify-center">
+											<item.icon size={20} color="#6366f1" />
+										</Box>
+										<ButtonText className="text-typography-900 font-medium">
+											{item.title}
+										</ButtonText>
+									</HStack>
+									<ChevronRight size={20} color="#9ca3af" />
+								</HStack>
+							</Button>
+						))}
+					</VStack>
 
-			<View style={styles.signOutSection}>
-				<Pressable style={styles.signOutButton} onPress={handleSignOut}>
-					<LogOut size={20} color="#ef4444" />
-					<Text style={styles.signOutText}>Sign Out</Text>
-				</Pressable>
-			</View>
+					{/* Sign Out */}
+					<Box className="px-6">
+						<Button 
+							variant="outline" 
+							action="negative"
+							className="bg-error-50 border-error-300"
+							onPress={handleSignOut}
+						>
+							<ButtonIcon as={LogOut} className="text-error-600" />
+							<ButtonText className="text-error-600 font-semibold">Sign Out</ButtonText>
+						</Button>
+					</Box>
 
-			<View style={styles.footer}>
-				<Text style={styles.footerText}>YourPath Learning Platform</Text>
-				<Text style={styles.versionText}>Version 1.0.0</Text>
-			</View>
-		</ScrollView>
+					{/* Footer */}
+					<VStack className="items-center px-6">
+						<Text className="text-sm text-typography-600">YourPath Learning Platform</Text>
+						<Text className="text-xs text-typography-400">Version 1.0.0</Text>
+					</VStack>
+				</VStack>
+			</ScrollView>
+		</Box>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#ffffff",
-	},
-	header: {
-		paddingHorizontal: 24,
-		paddingTop: 60,
-		paddingBottom: 20,
-	},
-	headerTitle: {
-		fontSize: 28,
-		fontWeight: "700",
-		color: "#1f2937",
-	},
-	profileSection: {
-		alignItems: "center",
-		paddingHorizontal: 24,
-		paddingBottom: 32,
-	},
-	avatarContainer: {
-		position: "relative",
-		marginBottom: 16,
-	},
-	avatar: {
-		width: 80,
-		height: 80,
-		borderRadius: 40,
-		backgroundColor: "#6366f1",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	avatarText: {
-		color: "#ffffff",
-		fontSize: 32,
-		fontWeight: "600",
-	},
-	editAvatarButton: {
-		position: "absolute",
-		bottom: 0,
-		right: 0,
-		width: 32,
-		height: 32,
-		borderRadius: 16,
-		backgroundColor: "#ffffff",
-		justifyContent: "center",
-		alignItems: "center",
-		borderWidth: 2,
-		borderColor: "#e5e7eb",
-	},
-	userName: {
-		fontSize: 24,
-		fontWeight: "700",
-		color: "#1f2937",
-		marginBottom: 4,
-	},
-	userEmail: {
-		fontSize: 16,
-		color: "#6b7280",
-		marginBottom: 24,
-	},
-	statsContainer: {
-		flexDirection: "row",
-		gap: 24,
-	},
-	statItem: {
-		alignItems: "center",
-		flex: 1,
-	},
-	statValue: {
-		fontSize: 20,
-		fontWeight: "700",
-		color: "#1f2937",
-		marginTop: 8,
-		marginBottom: 4,
-	},
-	statLabel: {
-		fontSize: 12,
-		color: "#6b7280",
-		textAlign: "center",
-	},
-	menuSection: {
-		paddingHorizontal: 24,
-		marginBottom: 32,
-	},
-	menuItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "space-between",
-		paddingVertical: 16,
-		borderBottomWidth: 1,
-		borderBottomColor: "#f3f4f6",
-	},
-	menuItemLeft: {
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	menuIconContainer: {
-		width: 40,
-		height: 40,
-		borderRadius: 20,
-		backgroundColor: "#f3f4f6",
-		justifyContent: "center",
-		alignItems: "center",
-		marginRight: 16,
-	},
-	menuItemText: {
-		fontSize: 16,
-		fontWeight: "500",
-		color: "#1f2937",
-	},
-	signOutSection: {
-		paddingHorizontal: 24,
-		marginBottom: 32,
-	},
-	signOutButton: {
-		flexDirection: "row",
-		alignItems: "center",
-		justifyContent: "center",
-		backgroundColor: "#fef2f2",
-		paddingVertical: 16,
-		borderRadius: 12,
-		gap: 8,
-	},
-	signOutText: {
-		fontSize: 16,
-		fontWeight: "600",
-		color: "#ef4444",
-	},
-	footer: {
-		alignItems: "center",
-		paddingHorizontal: 24,
-		paddingBottom: 100,
-	},
-	footerText: {
-		fontSize: 14,
-		color: "#6b7280",
-		marginBottom: 4,
-	},
-	versionText: {
-		fontSize: 12,
-		color: "#9ca3af",
-	},
-});

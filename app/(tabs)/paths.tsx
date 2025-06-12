@@ -1,9 +1,19 @@
 import { mockLearningPaths } from "@/data/mockData";
 import type { LearningPath } from "@/types/learning";
 import { Image } from "expo-image";
-import { BookOpen, Calendar, Clock, ListFilter as Filter, Plus, Search, Star, User, Users } from "lucide-react-native";
+import { BookOpen, Calendar, Clock, Filter, Plus, Search, Star, User, Users } from "lucide-react-native";
 import React, { useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
+import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
+import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Badge, BadgeText } from "@/components/ui/badge";
+import { Progress, ProgressFilledTrack } from "@/components/ui/progress";
 
 export default function PathsScreen() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -22,28 +32,26 @@ export default function PathsScreen() {
 
 	const handlePathPress = (path: LearningPath) => {
 		console.log("Navigate to learning path:", path.id);
-		// Navigation logic would go here
 	};
 
 	const handleCreatePath = () => {
 		console.log("Create new learning path");
-		// Navigation to create path screen
 	};
 
 	const getDifficultyColor = (difficulty: string) => {
 		switch (difficulty) {
 			case "Beginner":
-				return "#10b981";
+				return "success";
 			case "Intermediate":
-				return "#f59e0b";
+				return "warning";
 			case "Advanced":
-				return "#ef4444";
+				return "error";
 			case "Expert":
-				return "#8b5cf6";
+				return "info";
 			case "Guru":
-				return "#1f2937";
+				return "muted";
 			default:
-				return "#6b7280";
+				return "muted";
 		}
 	};
 
@@ -56,532 +64,248 @@ export default function PathsScreen() {
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.header}>
-				<View style={styles.headerContent}>
-					<Text style={styles.headerTitle}>Learning Paths</Text>
-					<Text style={styles.headerSubtitle}>Community-created learning journeys powered by AI</Text>
-				</View>
-				<View style={styles.headerActions}>
-					<Pressable style={styles.filterButton}>
-						<Filter size={20} color="#6366f1" />
-					</Pressable>
-					<Pressable style={styles.createButton} onPress={handleCreatePath}>
-						<Plus size={20} color="#ffffff" />
-					</Pressable>
-				</View>
-			</View>
+		<Box className="flex-1 bg-background-0">
+			<VStack space="lg" className="flex-1">
+				{/* Header */}
+				<Box className="px-6 pt-16 pb-6">
+					<HStack className="justify-between items-start">
+						<VStack className="flex-1">
+							<Heading size="2xl" className="text-typography-900 mb-1">
+								Learning Paths
+							</Heading>
+							<Text className="text-sm text-typography-500 leading-5">
+								Community-created learning journeys powered by AI
+							</Text>
+						</VStack>
+						<HStack space="sm">
+							<Button variant="outline" size="sm">
+								<ButtonIcon as={Filter} />
+							</Button>
+							<Button size="sm" onPress={handleCreatePath}>
+								<ButtonIcon as={Plus} />
+							</Button>
+						</HStack>
+					</HStack>
+				</Box>
 
-			<View style={styles.searchContainer}>
-				<Search size={20} color="#9ca3af" style={styles.searchIcon} />
-				<TextInput
-					style={styles.searchInput}
-					placeholder="Search learning paths..."
-					value={searchQuery}
-					onChangeText={setSearchQuery}
-				/>
-			</View>
+				{/* Search */}
+				<Box className="px-6">
+					<Input variant="outline" size="md">
+						<InputSlot className="pl-3">
+							<InputIcon as={Search} className="text-typography-400" />
+						</InputSlot>
+						<InputField
+							placeholder="Search learning paths..."
+							value={searchQuery}
+							onChangeText={setSearchQuery}
+						/>
+					</Input>
+				</Box>
 
-			<ScrollView
-				horizontal
-				showsHorizontalScrollIndicator={false}
-				style={styles.difficultiesContainer}
-				contentContainerStyle={styles.difficultiesContent}
-			>
-				{difficulties.map((difficulty) => (
-					<Pressable
-						key={difficulty}
-						style={[styles.difficultyChip, selectedDifficulty === difficulty && styles.difficultyChipActive]}
-						onPress={() => setSelectedDifficulty(difficulty)}
-					>
-						<Text style={[styles.difficultyText, selectedDifficulty === difficulty && styles.difficultyTextActive]}>
-							{difficulty}
-						</Text>
-					</Pressable>
-				))}
-			</ScrollView>
+				{/* Difficulty Filter */}
+				<ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-6">
+					<HStack space="sm">
+						{difficulties.map((difficulty) => (
+							<Button
+								key={difficulty}
+								variant={selectedDifficulty === difficulty ? "solid" : "outline"}
+								size="sm"
+								onPress={() => setSelectedDifficulty(difficulty)}
+							>
+								<ButtonText>{difficulty}</ButtonText>
+							</Button>
+						))}
+					</HStack>
+				</ScrollView>
 
-			<View style={styles.statsSection}>
-				<View style={styles.statCard}>
-					<BookOpen size={20} color="#6366f1" />
-					<Text style={styles.statNumber}>{filteredPaths.length}</Text>
-					<Text style={styles.statLabel}>Available Paths</Text>
-				</View>
-				<View style={styles.statCard}>
-					<Text style={styles.statNumber}>{filteredPaths.reduce((sum, path) => sum + path.totalCourses, 0)}</Text>
-					<Text style={styles.statLabel}>Total Courses</Text>
-				</View>
-				<View style={styles.statCard}>
-					<Text style={styles.statNumber}>
-						{Math.round(filteredPaths.reduce((sum, path) => sum + path.estimatedTime, 0))}h
-					</Text>
-					<Text style={styles.statLabel}>Total Hours</Text>
-				</View>
-			</View>
-
-			<ScrollView style={styles.pathsContainer} showsVerticalScrollIndicator={false}>
-				<View style={styles.pathsGrid}>
-					{filteredPaths.map((path) => (
-						<Pressable key={path.id} style={styles.pathCard} onPress={() => handlePathPress(path)}>
-							<Image source={{ uri: path.image }} style={styles.pathImage} />
-
-							<View style={styles.pathContent}>
-								<View style={styles.pathHeader}>
-									<View style={styles.titleRow}>
-										<Text style={styles.pathTitle} numberOfLines={2}>
-											{path.title}
-										</Text>
-										<View style={[styles.difficultyBadge, { backgroundColor: getDifficultyColor(path.difficulty) }]}>
-											<Text style={styles.difficultyBadgeText}>{path.difficulty}</Text>
-										</View>
-									</View>
-								</View>
-
-								<Text style={styles.pathDescription} numberOfLines={3}>
-									{path.description}
+				{/* Stats */}
+				<Box className="px-6">
+					<HStack space="sm">
+						<Card className="flex-1 p-4 bg-background-50 border-0">
+							<VStack className="items-center">
+								<BookOpen size={20} color="#6366f1" />
+								<Heading size="lg" className="text-typography-900 mt-1">
+									{filteredPaths.length}
+								</Heading>
+								<Text className="text-xs text-typography-500 text-center">
+									Available Paths
 								</Text>
+							</VStack>
+						</Card>
+						<Card className="flex-1 p-4 bg-background-50 border-0">
+							<VStack className="items-center">
+								<Heading size="lg" className="text-typography-900 mt-1">
+									{filteredPaths.reduce((sum, path) => sum + path.totalCourses, 0)}
+								</Heading>
+								<Text className="text-xs text-typography-500 text-center">
+									Total Courses
+								</Text>
+							</VStack>
+						</Card>
+						<Card className="flex-1 p-4 bg-background-50 border-0">
+							<VStack className="items-center">
+								<Heading size="lg" className="text-typography-900 mt-1">
+									{Math.round(filteredPaths.reduce((sum, path) => sum + path.estimatedTime, 0))}h
+								</Heading>
+								<Text className="text-xs text-typography-500 text-center">
+									Total Hours
+								</Text>
+							</VStack>
+						</Card>
+					</HStack>
+				</Box>
 
-								<View style={styles.creatorSection}>
-									<View style={styles.creatorInfo}>
-										<User size={14} color="#6b7280" />
-										<Text style={styles.creatorText}>Created by community</Text>
-									</View>
-									<View style={styles.aiTag}>
-										<Text style={styles.aiTagText}>AI-Powered</Text>
-									</View>
-								</View>
+				{/* Learning Paths */}
+				<ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+					<VStack space="lg" className="px-6 pb-24">
+						{filteredPaths.map((path) => (
+							<Card key={path.id} className="p-0 overflow-hidden shadow-soft-2" onPress={() => handlePathPress(path)}>
+								<Image 
+									source={{ uri: path.image }} 
+									style={{ width: "100%", height: 180 }}
+									contentFit="cover"
+								/>
+								
+								<VStack space="md" className="p-5">
+									{/* Title and Difficulty */}
+									<HStack className="justify-between items-start">
+										<Heading size="lg" className="text-typography-900 flex-1 mr-3 leading-6">
+											{path.title}
+										</Heading>
+										<Badge action={getDifficultyColor(path.difficulty)} variant="solid">
+											<BadgeText>{path.difficulty}</BadgeText>
+										</Badge>
+									</HStack>
 
-								<View style={styles.objectives}>
-									<Text style={styles.objectivesTitle}>Learning Objectives:</Text>
-									{path.objectives.slice(0, 2).map((objective) => (
-										<Text key={objective} style={styles.objective} numberOfLines={1}>
-											• {objective}
+									{/* Description */}
+									<Text className="text-sm text-typography-600 leading-5">
+										{path.description}
+									</Text>
+
+									{/* Creator and AI Tag */}
+									<HStack className="justify-between items-center">
+										<HStack space="xs" className="items-center">
+											<User size={14} color="#6b7280" />
+											<Text className="text-xs text-typography-500 font-medium">
+												Created by community
+											</Text>
+										</HStack>
+										<Badge action="info" variant="outline">
+											<BadgeText>AI-Powered</BadgeText>
+										</Badge>
+									</HStack>
+
+									{/* Objectives */}
+									<VStack space="xs">
+										<Text className="text-sm font-semibold text-typography-700">
+											Learning Objectives:
 										</Text>
-									))}
-									{path.objectives.length > 2 && (
-										<Text style={styles.moreObjectives}>+{path.objectives.length - 2} more objectives</Text>
-									)}
-								</View>
-
-								<View style={styles.pathStats}>
-									<View style={styles.statItem}>
-										<BookOpen size={16} color="#6b7280" />
-										<Text style={styles.statText}>{path.totalCourses} courses</Text>
-									</View>
-									<View style={styles.statItem}>
-										<Clock size={16} color="#6b7280" />
-										<Text style={styles.statText}>{path.estimatedTime}h</Text>
-									</View>
-									<View style={styles.statItem}>
-										<Users size={16} color="#6b7280" />
-										<Text style={styles.statText}>Community</Text>
-									</View>
-								</View>
-
-								<View style={styles.coursePreview}>
-									<Text style={styles.coursePreviewTitle}>Featured Courses:</Text>
-									<View style={styles.courseList}>
-										{path.courses.slice(0, 3).map((course, index) => (
-											<View key={course.id} style={styles.courseItem}>
-												<View style={styles.courseNumber}>
-													<Text style={styles.courseNumberText}>{index + 1}</Text>
-												</View>
-												<View style={styles.courseInfo}>
-													<Text style={styles.courseTitle} numberOfLines={1}>
-														{course.title}
-													</Text>
-													<Text style={styles.courseDetails}>
-														{course.lessons.length} lessons • {Math.round(course.duration / 60)}h
-													</Text>
-												</View>
-												<View style={styles.courseRating}>
-													<Star size={12} color="#fbbf24" />
-													<Text style={styles.ratingText}>{course.rating}</Text>
-												</View>
-											</View>
+										{path.objectives.slice(0, 2).map((objective, index) => (
+											<Text key={index} className="text-xs text-typography-600 pl-2">
+												• {objective}
+											</Text>
 										))}
-										{path.courses.length > 3 && (
-											<Text style={styles.moreCourses}>+{path.courses.length - 3} more courses</Text>
+										{path.objectives.length > 2 && (
+											<Text className="text-xs text-typography-400 italic pl-2 mt-1">
+												+{path.objectives.length - 2} more objectives
+											</Text>
 										)}
-									</View>
-								</View>
+									</VStack>
 
-								<View style={styles.pathFooter}>
-									<View style={styles.dateInfo}>
-										<Calendar size={12} color="#9ca3af" />
-										<Text style={styles.dateText}>Updated {formatDate(path.updatedAt)}</Text>
-									</View>
-									<View style={styles.progressSection}>
-										<Text style={styles.progressLabel}>Progress: {path.progress}%</Text>
-										<View style={styles.progressBar}>
-											<View style={[styles.progressFill, { width: `${path.progress}%` }]} />
-										</View>
-									</View>
-								</View>
-							</View>
-						</Pressable>
-					))}
-				</View>
+									{/* Stats */}
+									<HStack space="lg">
+										<HStack space="xs" className="items-center">
+											<BookOpen size={16} color="#6b7280" />
+											<Text className="text-xs text-typography-600 font-medium">
+												{path.totalCourses} courses
+											</Text>
+										</HStack>
+										<HStack space="xs" className="items-center">
+											<Clock size={16} color="#6b7280" />
+											<Text className="text-xs text-typography-600 font-medium">
+												{path.estimatedTime}h
+											</Text>
+										</HStack>
+										<HStack space="xs" className="items-center">
+											<Users size={16} color="#6b7280" />
+											<Text className="text-xs text-typography-600 font-medium">
+												Community
+											</Text>
+										</HStack>
+									</HStack>
 
-				{filteredPaths.length === 0 && (
-					<View style={styles.emptyState}>
-						<Search size={48} color="#d1d5db" />
-						<Text style={styles.emptyStateText}>No learning paths found matching your criteria</Text>
-						<Text style={styles.emptyStateSubtext}>Try adjusting your search or difficulty filter</Text>
-					</View>
-				)}
-			</ScrollView>
-		</View>
+									{/* Course Preview */}
+									<VStack space="sm">
+										<Text className="text-sm font-semibold text-typography-700">
+											Featured Courses:
+										</Text>
+										<VStack space="xs">
+											{path.courses.slice(0, 3).map((course, index) => (
+												<HStack key={course.id} space="sm" className="items-center bg-background-50 p-3 rounded-lg">
+													<Box className="w-6 h-6 bg-primary-600 rounded-full items-center justify-center">
+														<Text className="text-xs text-typography-0 font-semibold">
+															{index + 1}
+														</Text>
+													</Box>
+													<VStack className="flex-1">
+														<Text className="text-sm font-semibold text-typography-900">
+															{course.title}
+														</Text>
+														<Text className="text-xs text-typography-600">
+															{course.lessons.length} lessons • {Math.round(course.duration / 60)}h
+														</Text>
+													</VStack>
+													<HStack space="xs" className="items-center">
+														<Star size={12} color="#fbbf24" />
+														<Text className="text-xs text-typography-600 font-medium">
+															{course.rating}
+														</Text>
+													</HStack>
+												</HStack>
+											))}
+											{path.courses.length > 3 && (
+												<Text className="text-xs text-typography-400 italic text-center py-2">
+													+{path.courses.length - 3} more courses
+												</Text>
+											)}
+										</VStack>
+									</VStack>
+
+									{/* Footer */}
+									<VStack space="sm" className="pt-4 border-t border-outline-100">
+										<HStack space="xs" className="items-center">
+											<Calendar size={12} color="#9ca3af" />
+											<Text className="text-xs text-typography-400">
+												Updated {formatDate(path.updatedAt)}
+											</Text>
+										</HStack>
+										<VStack space="xs">
+											<Text className="text-xs font-semibold text-typography-700">
+												Progress: {path.progress}%
+											</Text>
+											<Progress value={path.progress} size="sm">
+												<ProgressFilledTrack />
+											</Progress>
+										</VStack>
+									</VStack>
+								</VStack>
+							</Card>
+						))}
+
+						{filteredPaths.length === 0 && (
+							<VStack className="items-center py-12">
+								<Search size={48} color="#d1d5db" />
+								<Heading size="md" className="text-typography-600 text-center mt-4">
+									No learning paths found
+								</Heading>
+								<Text className="text-sm text-typography-400 text-center mt-2">
+									Try adjusting your search or difficulty filter
+								</Text>
+							</VStack>
+						)}
+					</VStack>
+				</ScrollView>
+			</VStack>
+		</Box>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#ffffff",
-	},
-	header: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "flex-start",
-		paddingHorizontal: 24,
-		paddingTop: 60,
-		paddingBottom: 20,
-	},
-	headerContent: {
-		flex: 1,
-	},
-	headerTitle: {
-		fontSize: 28,
-		fontWeight: "700",
-		color: "#1f2937",
-		marginBottom: 4,
-	},
-	headerSubtitle: {
-		fontSize: 14,
-		color: "#6b7280",
-		lineHeight: 20,
-	},
-	headerActions: {
-		flexDirection: "row",
-		gap: 12,
-	},
-	filterButton: {
-		padding: 8,
-		borderRadius: 8,
-		backgroundColor: "#f3f4f6",
-	},
-	createButton: {
-		padding: 8,
-		borderRadius: 8,
-		backgroundColor: "#6366f1",
-	},
-	searchContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: "#f9fafb",
-		borderRadius: 12,
-		marginHorizontal: 24,
-		marginBottom: 20,
-		paddingHorizontal: 16,
-		borderWidth: 1,
-		borderColor: "#e5e7eb",
-	},
-	searchIcon: {
-		marginRight: 12,
-	},
-	searchInput: {
-		flex: 1,
-		paddingVertical: 12,
-		fontSize: 16,
-		color: "#374151",
-	},
-	difficultiesContainer: {
-		marginBottom: 20,
-	},
-	difficultiesContent: {
-		paddingHorizontal: 24,
-		gap: 12,
-	},
-	difficultyChip: {
-		paddingHorizontal: 16,
-		paddingVertical: 8,
-		borderRadius: 20,
-		backgroundColor: "#f3f4f6",
-		borderWidth: 1,
-		borderColor: "#e5e7eb",
-	},
-	difficultyChipActive: {
-		backgroundColor: "#6366f1",
-		borderColor: "#6366f1",
-	},
-	difficultyText: {
-		fontSize: 14,
-		fontWeight: "500",
-		color: "#6b7280",
-	},
-	difficultyTextActive: {
-		color: "#ffffff",
-	},
-	statsSection: {
-		flexDirection: "row",
-		paddingHorizontal: 24,
-		marginBottom: 24,
-		gap: 12,
-	},
-	statCard: {
-		flex: 1,
-		backgroundColor: "#f8fafc",
-		padding: 16,
-		borderRadius: 12,
-		alignItems: "center",
-	},
-	statNumber: {
-		fontSize: 20,
-		fontWeight: "700",
-		color: "#1f2937",
-		marginTop: 4,
-	},
-	statLabel: {
-		fontSize: 11,
-		color: "#6b7280",
-		marginTop: 4,
-		textAlign: "center",
-	},
-	pathsContainer: {
-		flex: 1,
-	},
-	pathsGrid: {
-		paddingHorizontal: 24,
-		paddingBottom: 100,
-	},
-	pathCard: {
-		backgroundColor: "#ffffff",
-		borderRadius: 16,
-		marginBottom: 24,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
-		elevation: 4,
-		overflow: "hidden",
-	},
-	pathImage: {
-		width: "100%",
-		height: 180,
-	},
-	pathContent: {
-		padding: 20,
-	},
-	pathHeader: {
-		marginBottom: 12,
-	},
-	titleRow: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "flex-start",
-		marginBottom: 8,
-	},
-	pathTitle: {
-		fontSize: 20,
-		fontWeight: "700",
-		color: "#1f2937",
-		flex: 1,
-		marginRight: 12,
-		lineHeight: 26,
-	},
-	difficultyBadge: {
-		paddingHorizontal: 12,
-		paddingVertical: 4,
-		borderRadius: 12,
-	},
-	difficultyBadgeText: {
-		color: "#ffffff",
-		fontSize: 12,
-		fontWeight: "600",
-	},
-	pathDescription: {
-		fontSize: 14,
-		color: "#6b7280",
-		lineHeight: 20,
-		marginBottom: 16,
-	},
-	creatorSection: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: 16,
-	},
-	creatorInfo: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 6,
-	},
-	creatorText: {
-		fontSize: 12,
-		color: "#6b7280",
-		fontWeight: "500",
-	},
-	aiTag: {
-		backgroundColor: "#ddd6fe",
-		paddingHorizontal: 8,
-		paddingVertical: 4,
-		borderRadius: 8,
-	},
-	aiTagText: {
-		fontSize: 10,
-		color: "#7c3aed",
-		fontWeight: "600",
-	},
-	objectives: {
-		marginBottom: 16,
-	},
-	objectivesTitle: {
-		fontSize: 14,
-		fontWeight: "600",
-		color: "#374151",
-		marginBottom: 8,
-	},
-	objective: {
-		fontSize: 13,
-		color: "#6b7280",
-		marginBottom: 4,
-		paddingLeft: 8,
-	},
-	moreObjectives: {
-		fontSize: 12,
-		color: "#9ca3af",
-		fontStyle: "italic",
-		paddingLeft: 8,
-		marginTop: 4,
-	},
-	pathStats: {
-		flexDirection: "row",
-		gap: 20,
-		marginBottom: 16,
-	},
-	statItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 6,
-	},
-	statText: {
-		fontSize: 13,
-		color: "#6b7280",
-		fontWeight: "500",
-	},
-	coursePreview: {
-		marginBottom: 16,
-	},
-	coursePreviewTitle: {
-		fontSize: 14,
-		fontWeight: "600",
-		color: "#374151",
-		marginBottom: 12,
-	},
-	courseList: {
-		gap: 8,
-	},
-	courseItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: "#f9fafb",
-		padding: 12,
-		borderRadius: 8,
-		gap: 12,
-	},
-	courseNumber: {
-		width: 24,
-		height: 24,
-		borderRadius: 12,
-		backgroundColor: "#6366f1",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	courseNumberText: {
-		color: "#ffffff",
-		fontSize: 12,
-		fontWeight: "600",
-	},
-	courseInfo: {
-		flex: 1,
-	},
-	courseTitle: {
-		fontSize: 14,
-		fontWeight: "600",
-		color: "#1f2937",
-		marginBottom: 2,
-	},
-	courseDetails: {
-		fontSize: 12,
-		color: "#6b7280",
-	},
-	courseRating: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	ratingText: {
-		fontSize: 12,
-		color: "#6b7280",
-		fontWeight: "500",
-	},
-	moreCourses: {
-		fontSize: 12,
-		color: "#9ca3af",
-		fontStyle: "italic",
-		textAlign: "center",
-		paddingVertical: 8,
-	},
-	pathFooter: {
-		borderTopWidth: 1,
-		borderTopColor: "#f3f4f6",
-		paddingTop: 16,
-		gap: 12,
-	},
-	dateInfo: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 6,
-	},
-	dateText: {
-		fontSize: 12,
-		color: "#9ca3af",
-	},
-	progressSection: {
-		gap: 6,
-	},
-	progressLabel: {
-		fontSize: 12,
-		fontWeight: "600",
-		color: "#374151",
-	},
-	progressBar: {
-		height: 4,
-		backgroundColor: "#e5e7eb",
-		borderRadius: 2,
-	},
-	progressFill: {
-		height: "100%",
-		backgroundColor: "#6366f1",
-		borderRadius: 2,
-	},
-	emptyState: {
-		alignItems: "center",
-		paddingVertical: 48,
-		paddingHorizontal: 24,
-	},
-	emptyStateText: {
-		fontSize: 16,
-		color: "#6b7280",
-		textAlign: "center",
-		marginTop: 16,
-		fontWeight: "500",
-	},
-	emptyStateSubtext: {
-		fontSize: 14,
-		color: "#9ca3af",
-		textAlign: "center",
-		marginTop: 8,
-	},
-});

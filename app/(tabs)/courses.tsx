@@ -1,7 +1,16 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from "react-native";
 import { Search, Filter, Clock, Star, Users } from "lucide-react-native";
 import { Image } from "expo-image";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
+import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
+import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Card } from "@/components/ui/card";
+import { Badge, BadgeText } from "@/components/ui/badge";
 
 export default function CoursesScreen() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -65,224 +74,99 @@ export default function CoursesScreen() {
 	});
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.headerTitle}>Courses</Text>
-				<Pressable style={styles.filterButton}>
-					<Filter size={20} color="#6366f1" />
-				</Pressable>
-			</View>
+		<Box className="flex-1 bg-background-0">
+			<VStack space="lg" className="flex-1">
+				{/* Header */}
+				<Box className="px-6 pt-16 pb-6">
+					<HStack className="justify-between items-center">
+						<Heading size="2xl" className="text-typography-900">
+							Courses
+						</Heading>
+						<Button variant="outline" size="sm">
+							<ButtonIcon as={Filter} />
+						</Button>
+					</HStack>
+				</Box>
 
-			<View style={styles.searchContainer}>
-				<Search size={20} color="#9ca3af" style={styles.searchIcon} />
-				<TextInput
-					style={styles.searchInput}
-					placeholder="Search courses..."
-					value={searchQuery}
-					onChangeText={setSearchQuery}
-				/>
-			</View>
+				{/* Search */}
+				<Box className="px-6">
+					<Input variant="outline" size="md">
+						<InputSlot className="pl-3">
+							<InputIcon as={Search} className="text-typography-400" />
+						</InputSlot>
+						<InputField
+							placeholder="Search courses..."
+							value={searchQuery}
+							onChangeText={setSearchQuery}
+						/>
+					</Input>
+				</Box>
 
-			<ScrollView
-				horizontal
-				showsHorizontalScrollIndicator={false}
-				style={styles.categoriesContainer}
-				contentContainerStyle={styles.categoriesContent}
-			>
-				{categories.map((category) => (
-					<Pressable
-						key={category}
-						style={[styles.categoryChip, selectedCategory === category && styles.categoryChipActive]}
-						onPress={() => setSelectedCategory(category)}
-					>
-						<Text style={[styles.categoryText, selectedCategory === category && styles.categoryTextActive]}>
-							{category}
-						</Text>
-					</Pressable>
-				))}
-			</ScrollView>
+				{/* Categories */}
+				<ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-6">
+					<HStack space="sm">
+						{categories.map((category) => (
+							<Button
+								key={category}
+								variant={selectedCategory === category ? "solid" : "outline"}
+								size="sm"
+								onPress={() => setSelectedCategory(category)}
+							>
+								<ButtonText>{category}</ButtonText>
+							</Button>
+						))}
+					</HStack>
+				</ScrollView>
 
-			<ScrollView style={styles.coursesContainer} showsVerticalScrollIndicator={false}>
-				<View style={styles.coursesGrid}>
-					{filteredCourses.map((course) => (
-						<Pressable key={course.id} style={styles.courseCard}>
-							<Image source={{ uri: course.image }} style={styles.courseImage} />
-							<View style={styles.courseContent}>
-								<Text style={styles.courseTitle} numberOfLines={2}>
-									{course.title}
-								</Text>
-								<Text style={styles.courseInstructor}>by {course.instructor}</Text>
+				{/* Courses */}
+				<ScrollView showsVerticalScrollIndicator={false} className="flex-1">
+					<VStack space="lg" className="px-6 pb-24">
+						{filteredCourses.map((course) => (
+							<Card key={course.id} className="p-0 overflow-hidden shadow-soft-2">
+								<Image 
+									source={{ uri: course.image }} 
+									style={{ width: "100%", height: 160 }}
+									contentFit="cover"
+								/>
+								<VStack space="md" className="p-4">
+									<VStack space="xs">
+										<Heading size="md" className="text-typography-900 leading-6">
+											{course.title}
+										</Heading>
+										<Text className="text-sm text-typography-600">
+											by {course.instructor}
+										</Text>
+									</VStack>
 
-								<View style={styles.courseStats}>
-									<View style={styles.statItem}>
-										<Star size={14} color="#fbbf24" />
-										<Text style={styles.statText}>{course.rating}</Text>
-									</View>
-									<View style={styles.statItem}>
-										<Users size={14} color="#6b7280" />
-										<Text style={styles.statText}>{course.students}</Text>
-									</View>
-									<View style={styles.statItem}>
-										<Clock size={14} color="#6b7280" />
-										<Text style={styles.statText}>{course.duration}</Text>
-									</View>
-								</View>
+									<HStack space="lg">
+										<HStack space="xs" className="items-center">
+											<Star size={14} color="#fbbf24" />
+											<Text className="text-xs text-typography-600">{course.rating}</Text>
+										</HStack>
+										<HStack space="xs" className="items-center">
+											<Users size={14} color="#6b7280" />
+											<Text className="text-xs text-typography-600">{course.students}</Text>
+										</HStack>
+										<HStack space="xs" className="items-center">
+											<Clock size={14} color="#6b7280" />
+											<Text className="text-xs text-typography-600">{course.duration}</Text>
+										</HStack>
+									</HStack>
 
-								<View style={styles.courseFooter}>
-									<Text style={styles.coursePrice}>{course.price}</Text>
-									<Pressable style={styles.enrollButton}>
-										<Text style={styles.enrollButtonText}>Enroll</Text>
-									</Pressable>
-								</View>
-							</View>
-						</Pressable>
-					))}
-				</View>
-			</ScrollView>
-		</View>
+									<HStack className="justify-between items-center">
+										<Heading size="lg" className="text-typography-900">
+											{course.price}
+										</Heading>
+										<Button size="sm">
+											<ButtonText>Enroll</ButtonText>
+										</Button>
+									</HStack>
+								</VStack>
+							</Card>
+						))}
+					</VStack>
+				</ScrollView>
+			</VStack>
+		</Box>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#ffffff",
-	},
-	header: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		paddingHorizontal: 24,
-		paddingTop: 60,
-		paddingBottom: 20,
-	},
-	headerTitle: {
-		fontSize: 28,
-		fontWeight: "700",
-		color: "#1f2937",
-	},
-	filterButton: {
-		padding: 8,
-		borderRadius: 8,
-		backgroundColor: "#f3f4f6",
-	},
-	searchContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		backgroundColor: "#f9fafb",
-		borderRadius: 12,
-		marginHorizontal: 24,
-		marginBottom: 20,
-		paddingHorizontal: 16,
-		borderWidth: 1,
-		borderColor: "#e5e7eb",
-	},
-	searchIcon: {
-		marginRight: 12,
-	},
-	searchInput: {
-		flex: 1,
-		paddingVertical: 12,
-		fontSize: 16,
-		color: "#374151",
-	},
-	categoriesContainer: {
-		marginBottom: 20,
-	},
-	categoriesContent: {
-		paddingHorizontal: 24,
-		gap: 12,
-	},
-	categoryChip: {
-		paddingHorizontal: 16,
-		paddingVertical: 8,
-		borderRadius: 20,
-		backgroundColor: "#f3f4f6",
-		borderWidth: 1,
-		borderColor: "#e5e7eb",
-	},
-	categoryChipActive: {
-		backgroundColor: "#6366f1",
-		borderColor: "#6366f1",
-	},
-	categoryText: {
-		fontSize: 14,
-		fontWeight: "500",
-		color: "#6b7280",
-	},
-	categoryTextActive: {
-		color: "#ffffff",
-	},
-	coursesContainer: {
-		flex: 1,
-	},
-	coursesGrid: {
-		paddingHorizontal: 24,
-		paddingBottom: 100,
-	},
-	courseCard: {
-		backgroundColor: "#ffffff",
-		borderRadius: 16,
-		marginBottom: 20,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
-		elevation: 4,
-		overflow: "hidden",
-	},
-	courseImage: {
-		width: "100%",
-		height: 160,
-	},
-	courseContent: {
-		padding: 16,
-	},
-	courseTitle: {
-		fontSize: 18,
-		fontWeight: "600",
-		color: "#1f2937",
-		marginBottom: 4,
-		lineHeight: 24,
-	},
-	courseInstructor: {
-		fontSize: 14,
-		color: "#6b7280",
-		marginBottom: 12,
-	},
-	courseStats: {
-		flexDirection: "row",
-		gap: 16,
-		marginBottom: 16,
-	},
-	statItem: {
-		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
-	},
-	statText: {
-		fontSize: 12,
-		color: "#6b7280",
-	},
-	courseFooter: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	coursePrice: {
-		fontSize: 20,
-		fontWeight: "700",
-		color: "#1f2937",
-	},
-	enrollButton: {
-		backgroundColor: "#6366f1",
-		paddingHorizontal: 20,
-		paddingVertical: 8,
-		borderRadius: 8,
-	},
-	enrollButtonText: {
-		color: "#ffffff",
-		fontSize: 14,
-		fontWeight: "600",
-	},
-});

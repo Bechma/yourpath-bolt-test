@@ -1,8 +1,17 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import { useAuth } from "@/contexts/AuthContext";
 import { BookOpen, Clock, TrendingUp, Award } from "lucide-react-native";
 import { Image } from "expo-image";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Box } from "@/components/ui/box";
+import { VStack } from "@/components/ui/vstack";
+import { HStack } from "@/components/ui/hstack";
+import { Text } from "@/components/ui/text";
+import { Heading } from "@/components/ui/heading";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
+import { Progress, ProgressFilledTrack } from "@/components/ui/progress";
 
 export default function HomeScreen() {
 	const { user } = useAuth();
@@ -33,238 +42,120 @@ export default function HomeScreen() {
 	];
 
 	return (
-		<ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-			<View style={styles.header}>
-				<View>
-					<Text style={styles.greeting}>Welcome back,</Text>
-					<Text style={styles.userName}>{user?.email?.split("@")[0] || "Learner"}!</Text>
-				</View>
-				<View style={styles.avatar}>
-					<Text style={styles.avatarText}>{user?.email?.charAt(0).toUpperCase() || "L"}</Text>
-				</View>
-			</View>
+		<Box className="flex-1 bg-background-0">
+			<ScrollView showsVerticalScrollIndicator={false}>
+				<VStack space="lg" className="pb-24">
+					{/* Header */}
+					<Box className="px-6 pt-16 pb-6">
+						<HStack className="justify-between items-center">
+							<VStack>
+								<Text className="text-typography-500">Welcome back,</Text>
+								<Heading size="xl" className="text-typography-900 mt-1">
+									{user?.email?.split("@")[0] || "Learner"}!
+								</Heading>
+							</VStack>
+							<Avatar size="lg" className="bg-primary-500">
+								<AvatarFallbackText className="text-typography-0 font-semibold">
+									{user?.email?.charAt(0).toUpperCase() || "L"}
+								</AvatarFallbackText>
+							</Avatar>
+						</HStack>
+					</Box>
 
-			<View style={styles.statsContainer}>
-				{stats.map((stat) => (
-					<View key={stat.label} style={styles.statCard}>
-						<stat.icon size={24} color="#6366f1" />
-						<Text style={styles.statValue}>{stat.value}</Text>
-						<Text style={styles.statLabel}>{stat.label}</Text>
-					</View>
-				))}
-			</View>
+					{/* Stats */}
+					<Box className="px-6">
+						<HStack space="md">
+							{stats.map((stat) => (
+								<Card key={stat.label} className="flex-1 p-5 bg-background-50 border-0">
+									<VStack className="items-center">
+										<stat.icon size={24} color="#6366f1" />
+										<Heading size="xl" className="text-typography-900 mt-2">
+											{stat.value}
+										</Heading>
+										<Text className="text-xs text-typography-500 mt-1">{stat.label}</Text>
+									</VStack>
+								</Card>
+							))}
+						</HStack>
+					</Box>
 
-			<View style={styles.section}>
-				<View style={styles.sectionHeader}>
-					<Text style={styles.sectionTitle}>Continue Learning</Text>
-					<Pressable>
-						<Text style={styles.seeAll}>See all</Text>
-					</Pressable>
-				</View>
+					{/* Continue Learning */}
+					<VStack space="md" className="px-6">
+						<HStack className="justify-between items-center">
+							<Heading size="lg" className="text-typography-900">Continue Learning</Heading>
+							<Button variant="link" size="sm">
+								<ButtonText className="text-primary-600">See all</ButtonText>
+							</Button>
+						</HStack>
 
-				{featuredCourses.map((course) => (
-					<Pressable key={course.id} style={styles.courseCard}>
-						<Image source={{ uri: course.image }} style={styles.courseImage} />
-						<View style={styles.courseContent}>
-							<Text style={styles.courseTitle}>{course.title}</Text>
-							<Text style={styles.courseInstructor}>by {course.instructor}</Text>
-							<View style={styles.courseFooter}>
-								<View style={styles.progressContainer}>
-									<View style={styles.progressBar}>
-										<View style={[styles.progressFill, { width: `${course.progress}%` }]} />
-									</View>
-									<Text style={styles.progressText}>{course.progress}%</Text>
-								</View>
-								<Text style={styles.courseDuration}>{course.duration}</Text>
-							</View>
-						</View>
-					</Pressable>
-				))}
-			</View>
+						<VStack space="md">
+							{featuredCourses.map((course) => (
+								<Card key={course.id} className="p-0 overflow-hidden shadow-soft-1">
+									<HStack>
+										<Image 
+											source={{ uri: course.image }} 
+											style={{ width: 80, height: 80 }}
+											contentFit="cover"
+										/>
+										<VStack className="flex-1 p-4 justify-between">
+											<VStack space="xs">
+												<Heading size="sm" className="text-typography-900">
+													{course.title}
+												</Heading>
+												<Text className="text-sm text-typography-500">
+													by {course.instructor}
+												</Text>
+											</VStack>
+											<HStack className="justify-between items-center">
+												<VStack className="flex-1 mr-4">
+													<Progress value={course.progress} size="sm" className="mb-1">
+														<ProgressFilledTrack />
+													</Progress>
+													<Text className="text-xs text-typography-500">
+														{course.progress}%
+													</Text>
+												</VStack>
+												<Text className="text-xs text-typography-500">
+													{course.duration}
+												</Text>
+											</HStack>
+										</VStack>
+									</HStack>
+								</Card>
+							))}
+						</VStack>
+					</VStack>
 
-			<View style={styles.section}>
-				<Text style={styles.sectionTitle}>Quick Actions</Text>
-				<View style={styles.quickActions}>
-					<Pressable style={styles.actionCard}>
-						<BookOpen size={32} color="#6366f1" />
-						<Text style={styles.actionTitle}>Browse Courses</Text>
-						<Text style={styles.actionSubtitle}>Discover new topics</Text>
-					</Pressable>
-					<Pressable style={styles.actionCard}>
-						<TrendingUp size={32} color="#10b981" />
-						<Text style={styles.actionTitle}>View Progress</Text>
-						<Text style={styles.actionSubtitle}>Track your learning</Text>
-					</Pressable>
-				</View>
-			</View>
-		</ScrollView>
+					{/* Quick Actions */}
+					<VStack space="md" className="px-6">
+						<Heading size="lg" className="text-typography-900">Quick Actions</Heading>
+						<HStack space="md">
+							<Card className="flex-1 p-5 bg-background-50 border-0">
+								<VStack className="items-center">
+									<BookOpen size={32} color="#6366f1" />
+									<Heading size="md" className="text-typography-900 mt-3 text-center">
+										Browse Courses
+									</Heading>
+									<Text className="text-xs text-typography-500 mt-1 text-center">
+										Discover new topics
+									</Text>
+								</VStack>
+							</Card>
+							<Card className="flex-1 p-5 bg-background-50 border-0">
+								<VStack className="items-center">
+									<TrendingUp size={32} color="#10b981" />
+									<Heading size="md" className="text-typography-900 mt-3 text-center">
+										View Progress
+									</Heading>
+									<Text className="text-xs text-typography-500 mt-1 text-center">
+										Track your learning
+									</Text>
+								</VStack>
+							</Card>
+						</HStack>
+					</VStack>
+				</VStack>
+			</ScrollView>
+		</Box>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: "#ffffff",
-	},
-	header: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		paddingHorizontal: 24,
-		paddingTop: 60,
-		paddingBottom: 24,
-	},
-	greeting: {
-		fontSize: 16,
-		color: "#6b7280",
-	},
-	userName: {
-		fontSize: 24,
-		fontWeight: "700",
-		color: "#1f2937",
-		marginTop: 4,
-	},
-	avatar: {
-		width: 48,
-		height: 48,
-		borderRadius: 24,
-		backgroundColor: "#6366f1",
-		justifyContent: "center",
-		alignItems: "center",
-	},
-	avatarText: {
-		color: "#ffffff",
-		fontSize: 18,
-		fontWeight: "600",
-	},
-	statsContainer: {
-		flexDirection: "row",
-		paddingHorizontal: 24,
-		marginBottom: 32,
-		gap: 16,
-	},
-	statCard: {
-		flex: 1,
-		backgroundColor: "#f8fafc",
-		padding: 20,
-		borderRadius: 16,
-		alignItems: "center",
-	},
-	statValue: {
-		fontSize: 24,
-		fontWeight: "700",
-		color: "#1f2937",
-		marginTop: 8,
-	},
-	statLabel: {
-		fontSize: 12,
-		color: "#6b7280",
-		marginTop: 4,
-	},
-	section: {
-		paddingHorizontal: 24,
-		marginBottom: 32,
-	},
-	sectionHeader: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		marginBottom: 16,
-	},
-	sectionTitle: {
-		fontSize: 20,
-		fontWeight: "700",
-		color: "#1f2937",
-	},
-	seeAll: {
-		fontSize: 14,
-		color: "#6366f1",
-		fontWeight: "500",
-	},
-	courseCard: {
-		flexDirection: "row",
-		backgroundColor: "#ffffff",
-		borderRadius: 16,
-		marginBottom: 16,
-		shadowColor: "#000",
-		shadowOffset: { width: 0, height: 2 },
-		shadowOpacity: 0.1,
-		shadowRadius: 8,
-		elevation: 4,
-		overflow: "hidden",
-	},
-	courseImage: {
-		width: 80,
-		height: 80,
-		borderRadius: 12,
-		margin: 12,
-	},
-	courseContent: {
-		flex: 1,
-		padding: 12,
-		justifyContent: "space-between",
-	},
-	courseTitle: {
-		fontSize: 16,
-		fontWeight: "600",
-		color: "#1f2937",
-		marginBottom: 4,
-	},
-	courseInstructor: {
-		fontSize: 14,
-		color: "#6b7280",
-		marginBottom: 12,
-	},
-	courseFooter: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	progressContainer: {
-		flex: 1,
-		marginRight: 16,
-	},
-	progressBar: {
-		height: 4,
-		backgroundColor: "#e5e7eb",
-		borderRadius: 2,
-		marginBottom: 4,
-	},
-	progressFill: {
-		height: "100%",
-		backgroundColor: "#6366f1",
-		borderRadius: 2,
-	},
-	progressText: {
-		fontSize: 12,
-		color: "#6b7280",
-	},
-	courseDuration: {
-		fontSize: 12,
-		color: "#6b7280",
-	},
-	quickActions: {
-		flexDirection: "row",
-		gap: 16,
-	},
-	actionCard: {
-		flex: 1,
-		backgroundColor: "#f8fafc",
-		padding: 20,
-		borderRadius: 16,
-		alignItems: "center",
-	},
-	actionTitle: {
-		fontSize: 16,
-		fontWeight: "600",
-		color: "#1f2937",
-		marginTop: 12,
-		textAlign: "center",
-	},
-	actionSubtitle: {
-		fontSize: 12,
-		color: "#6b7280",
-		marginTop: 4,
-		textAlign: "center",
-	},
-});
