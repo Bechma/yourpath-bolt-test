@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { Clock, Play, FileText, Monitor, CheckCircle, Circle, PlayCircle } from 'lucide-react-native';
+import { Clock, Play, FileText, Monitor, CircleCheck as CheckCircle, Circle, CirclePlay as PlayCircle } from 'lucide-react-native';
 import { Lesson } from '@/types/learning';
 
 interface LessonCardProps {

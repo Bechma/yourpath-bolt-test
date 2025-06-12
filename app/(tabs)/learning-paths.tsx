@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Pressable, TextInput } from 'react-native';
-import { Search, Filter, Plus, TrendingUp } from 'lucide-react-native';
+import { Search, ListFilter as Filter, Plus, TrendingUp } from 'lucide-react-native';
 import { LearningPathCard } from '@/components/LearningPathCard';
 import { mockLearningPaths } from '@/data/mockData';
 import { LearningPath } from '@/types/learning';
