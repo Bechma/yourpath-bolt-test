@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
-import { User, Settings, BookOpen, Award, Bell, HelpCircle, LogOut, ChevronRight, Edit } from "lucide-react-native";
+import { User, Settings, BookOpen, Award, Bell, CircleHelp as HelpCircle, LogOut, ChevronRight, LocationEdit as Edit } from "lucide-react-native";
 import { Alert } from "react-native";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Box } from "@/components/ui/box";

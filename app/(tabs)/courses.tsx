@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Filter, Clock, Star, Users } from "lucide-react-native";
+import { Search, ListFilter as Filter, Clock, Star, Users } from "lucide-react-native";
 import { Image } from "expo-image";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Box } from "@/components/ui/box";

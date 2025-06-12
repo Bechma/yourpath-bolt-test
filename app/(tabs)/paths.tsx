@@ -1,7 +1,7 @@
 import { mockLearningPaths } from "@/data/mockData";
 import type { LearningPath } from "@/types/learning";
 import { Image } from "expo-image";
-import { BookOpen, Calendar, Clock, Filter, Plus, Search, Star, User, Users } from "lucide-react-native";
+import { BookOpen, Calendar, Clock, ListFilter as Filter, Plus, Search, Star, User, Users } from "lucide-react-native";
 import React, { useState } from "react";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Box } from "@/components/ui/box";
