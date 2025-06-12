@@ -12,6 +12,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Image } from "expo-image";
 import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
 import React from "react";
+import { router } from "expo-router";
 
 export default function HomeScreen() {
 	const { user } = useAuth();
@@ -40,6 +41,14 @@ export default function HomeScreen() {
 		{ icon: Clock, label: "Hours", value: "48" },
 		{ icon: Award, label: "Certificates", value: "3" },
 	];
+
+	const handleViewProgress = () => {
+		router.push("/(tabs)/progress");
+	};
+
+	const handleBrowseCourses = () => {
+		router.push("/(tabs)/courses");
+	};
 
 	return (
 		<Box className="flex-1 bg-background-0">
@@ -124,7 +133,11 @@ export default function HomeScreen() {
 							Quick Actions
 						</Heading>
 						<HStack space="md">
-							<Card className="flex-1 p-5 bg-background-50 border-0">
+							<Button 
+								variant="link" 
+								className="flex-1 p-5 bg-background-50 border-0 rounded-lg"
+								onPress={handleBrowseCourses}
+							>
 								<VStack className="items-center">
 									<BookOpen size={32} color="#6366f1" />
 									<Heading size="md" className="text-typography-900 mt-3 text-center">
@@ -132,8 +145,12 @@ export default function HomeScreen() {
 									</Heading>
 									<Text className="text-xs text-typography-500 mt-1 text-center">Discover new topics</Text>
 								</VStack>
-							</Card>
-							<Card className="flex-1 p-5 bg-background-50 border-0">
+							</Button>
+							<Button 
+								variant="link" 
+								className="flex-1 p-5 bg-background-50 border-0 rounded-lg"
+								onPress={handleViewProgress}
+							>
 								<VStack className="items-center">
 									<TrendingUp size={32} color="#10b981" />
 									<Heading size="md" className="text-typography-900 mt-3 text-center">
@@ -141,7 +158,7 @@ export default function HomeScreen() {
 									</Heading>
 									<Text className="text-xs text-typography-500 mt-1 text-center">Track your learning</Text>
 								</VStack>
-							</Card>
+							</Button>
 						</HStack>
 					</VStack>
 				</VStack>
