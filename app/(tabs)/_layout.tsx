@@ -1,32 +1,12 @@
 import { Tabs } from "expo-router";
 import { BookOpen, House as Home, Map as MapIcon, Search, User } from "lucide-react-native";
 import React from "react";
-import { Platform } from "react-native";
 
 export default function TabLayout() {
 	return (
 		<Tabs
 			screenOptions={{
 				headerShown: false,
-				tabBarActiveTintColor: "#6366f1",
-				tabBarInactiveTintColor: "#9ca3af",
-				tabBarStyle: {
-					backgroundColor: "#ffffff",
-					borderTopWidth: 1,
-					borderTopColor: "#e5e7eb",
-					paddingBottom: Platform.OS === "ios" ? 20 : 10,
-					paddingTop: 10,
-					height: Platform.OS === "ios" ? 90 : 70,
-					elevation: 8,
-					shadowColor: "#000",
-					shadowOffset: { width: 0, height: -2 },
-					shadowOpacity: 0.1,
-					shadowRadius: 8,
-				},
-				tabBarLabelStyle: {
-					fontSize: 12,
-					fontWeight: "500",
-				},
 			}}
 		>
 			<Tabs.Screen

@@ -1,17 +1,17 @@
-import React from "react";
-import { useAuth } from "@/contexts/AuthContext";
-import { BookOpen, Clock, TrendingUp, Award } from "lucide-react-native";
-import { Image } from "expo-image";
-import { ScrollView } from "@/components/ui/scroll-view";
+import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
-import { Heading } from "@/components/ui/heading";
 import { Button, ButtonText } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
 import { Progress, ProgressFilledTrack } from "@/components/ui/progress";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { useAuth } from "@/contexts/AuthContext";
+import { Image } from "expo-image";
+import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
+import React from "react";
 
 export default function HomeScreen() {
 	const { user } = useAuth();
@@ -82,7 +82,9 @@ export default function HomeScreen() {
 					{/* Continue Learning */}
 					<VStack space="md" className="px-6">
 						<HStack className="justify-between items-center">
-							<Heading size="lg" className="text-typography-900">Continue Learning</Heading>
+							<Heading size="lg" className="text-typography-900">
+								Continue Learning
+							</Heading>
 							<Button variant="link" size="sm">
 								<ButtonText className="text-primary-600">See all</ButtonText>
 							</Button>
@@ -92,32 +94,22 @@ export default function HomeScreen() {
 							{featuredCourses.map((course) => (
 								<Card key={course.id} className="p-0 overflow-hidden shadow-soft-1">
 									<HStack>
-										<Image 
-											source={{ uri: course.image }} 
-											style={{ width: 80, height: 80 }}
-											contentFit="cover"
-										/>
+										<Image source={{ uri: course.image }} style={{ width: 80, height: 80 }} contentFit="cover" />
 										<VStack className="flex-1 p-4 justify-between">
 											<VStack space="xs">
 												<Heading size="sm" className="text-typography-900">
 													{course.title}
 												</Heading>
-												<Text className="text-sm text-typography-500">
-													by {course.instructor}
-												</Text>
+												<Text className="text-sm text-typography-500">by {course.instructor}</Text>
 											</VStack>
 											<HStack className="justify-between items-center">
 												<VStack className="flex-1 mr-4">
 													<Progress value={course.progress} size="sm" className="mb-1">
 														<ProgressFilledTrack />
 													</Progress>
-													<Text className="text-xs text-typography-500">
-														{course.progress}%
-													</Text>
+													<Text className="text-xs text-typography-500">{course.progress}%</Text>
 												</VStack>
-												<Text className="text-xs text-typography-500">
-													{course.duration}
-												</Text>
+												<Text className="text-xs text-typography-500">{course.duration}</Text>
 											</HStack>
 										</VStack>
 									</HStack>
@@ -128,7 +120,9 @@ export default function HomeScreen() {
 
 					{/* Quick Actions */}
 					<VStack space="md" className="px-6">
-						<Heading size="lg" className="text-typography-900">Quick Actions</Heading>
+						<Heading size="lg" className="text-typography-900">
+							Quick Actions
+						</Heading>
 						<HStack space="md">
 							<Card className="flex-1 p-5 bg-background-50 border-0">
 								<VStack className="items-center">
@@ -136,9 +130,7 @@ export default function HomeScreen() {
 									<Heading size="md" className="text-typography-900 mt-3 text-center">
 										Browse Courses
 									</Heading>
-									<Text className="text-xs text-typography-500 mt-1 text-center">
-										Discover new topics
-									</Text>
+									<Text className="text-xs text-typography-500 mt-1 text-center">Discover new topics</Text>
 								</VStack>
 							</Card>
 							<Card className="flex-1 p-5 bg-background-50 border-0">
@@ -147,9 +139,7 @@ export default function HomeScreen() {
 									<Heading size="md" className="text-typography-900 mt-3 text-center">
 										View Progress
 									</Heading>
-									<Text className="text-xs text-typography-500 mt-1 text-center">
-										Track your learning
-									</Text>
+									<Text className="text-xs text-typography-500 mt-1 text-center">Track your learning</Text>
 								</VStack>
 							</Card>
 						</HStack>

@@ -24,7 +24,7 @@ export default function RootLayout() {
 	}
 
 	return (
-		<GluestackUIProvider mode="light">
+		<GluestackUIProvider mode="dark">
 			<AuthProvider>
 				<Stack screenOptions={{ headerShown: false }}>
 					<Stack.Screen name="index" />

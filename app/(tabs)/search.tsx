@@ -1,15 +1,15 @@
+import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
+import { Box } from "@/components/ui/box";
+import { Button, ButtonText } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
 import { BookOpen, Clock, Search, TrendingUp } from "lucide-react-native";
 import React, { useState } from "react";
-import { ScrollView } from "@/components/ui/scroll-view";
-import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
-import { Heading } from "@/components/ui/heading";
-import { Button, ButtonText } from "@/components/ui/button";
-import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 
 export default function SearchScreen() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -60,7 +60,9 @@ export default function SearchScreen() {
 							<>
 								{/* Recent Searches */}
 								<VStack space="md">
-									<Heading size="lg" className="text-typography-900">Recent Searches</Heading>
+									<Heading size="lg" className="text-typography-900">
+										Recent Searches
+									</Heading>
 									<VStack space="sm">
 										{recentSearches.map((search) => (
 											<Button key={search} variant="link" className="justify-start">
@@ -77,7 +79,9 @@ export default function SearchScreen() {
 								<VStack space="md">
 									<HStack space="sm" className="items-center">
 										<TrendingUp size={20} color="#6366f1" />
-										<Heading size="lg" className="text-typography-900">Trending Topics</Heading>
+										<Heading size="lg" className="text-typography-900">
+											Trending Topics
+										</Heading>
 									</HStack>
 									<VStack space="sm">
 										{trendingTopics.map((topic) => (
@@ -86,9 +90,7 @@ export default function SearchScreen() {
 													<Heading size="md" className="text-typography-900">
 														{topic.title}
 													</Heading>
-													<Text className="text-sm text-typography-600">
-														{topic.courses} courses
-													</Text>
+													<Text className="text-sm text-typography-600">{topic.courses} courses</Text>
 												</VStack>
 											</Card>
 										))}
@@ -97,7 +99,9 @@ export default function SearchScreen() {
 
 								{/* Popular Instructors */}
 								<VStack space="md">
-									<Heading size="lg" className="text-typography-900">Popular Instructors</Heading>
+									<Heading size="lg" className="text-typography-900">
+										Popular Instructors
+									</Heading>
 									<VStack space="sm">
 										{popularInstructors.map((instructor) => (
 											<Card key={instructor.name} className="p-4 bg-background-50 border-0">
@@ -114,13 +118,9 @@ export default function SearchScreen() {
 														<HStack space="lg">
 															<HStack space="xs" className="items-center">
 																<BookOpen size={12} color="#6b7280" />
-																<Text className="text-xs text-typography-600">
-																	{instructor.courses} courses
-																</Text>
+																<Text className="text-xs text-typography-600">{instructor.courses} courses</Text>
 															</HStack>
-															<Text className="text-xs text-typography-600">
-																{instructor.students} students
-															</Text>
+															<Text className="text-xs text-typography-600">{instructor.students} students</Text>
 														</HStack>
 													</VStack>
 												</HStack>
@@ -133,7 +133,9 @@ export default function SearchScreen() {
 
 						{searchQuery !== "" && (
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Search Results</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Search Results
+								</Heading>
 								<VStack className="items-center py-12">
 									<Search size={48} color="#d1d5db" />
 									<Text className="text-center text-typography-600 mt-4 leading-6">

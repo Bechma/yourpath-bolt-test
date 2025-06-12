@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { Search, ListFilter as Filter, Clock, Star, Users } from "lucide-react-native";
-import { Image } from "expo-image";
-import { ScrollView } from "@/components/ui/scroll-view";
 import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
-import { Heading } from "@/components/ui/heading";
-import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
-import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge, BadgeText } from "@/components/ui/badge";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
+import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { Image } from "expo-image";
+import { Clock, ListFilter as Filter, Search, Star, Users } from "lucide-react-native";
+import React, { useState } from "react";
 
 export default function CoursesScreen() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -94,11 +93,7 @@ export default function CoursesScreen() {
 						<InputSlot className="pl-3">
 							<InputIcon as={Search} className="text-typography-400" />
 						</InputSlot>
-						<InputField
-							placeholder="Search courses..."
-							value={searchQuery}
-							onChangeText={setSearchQuery}
-						/>
+						<InputField placeholder="Search courses..." value={searchQuery} onChangeText={setSearchQuery} />
 					</Input>
 				</Box>
 
@@ -123,19 +118,13 @@ export default function CoursesScreen() {
 					<VStack space="lg" className="px-6 pb-24">
 						{filteredCourses.map((course) => (
 							<Card key={course.id} className="p-0 overflow-hidden shadow-soft-2">
-								<Image 
-									source={{ uri: course.image }} 
-									style={{ width: "100%", height: 160 }}
-									contentFit="cover"
-								/>
+								<Image source={{ uri: course.image }} style={{ width: "100%", height: 160 }} contentFit="cover" />
 								<VStack space="md" className="p-4">
 									<VStack space="xs">
 										<Heading size="md" className="text-typography-900 leading-6">
 											{course.title}
 										</Heading>
-										<Text className="text-sm text-typography-600">
-											by {course.instructor}
-										</Text>
+										<Text className="text-sm text-typography-600">by {course.instructor}</Text>
 									</VStack>
 
 									<HStack space="lg">

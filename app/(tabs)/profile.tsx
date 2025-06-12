@@ -1,17 +1,26 @@
-import React from "react";
+import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
+import { Box } from "@/components/ui/box";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
 import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
-import { User, Settings, BookOpen, Award, Bell, CircleHelp as HelpCircle, LogOut, ChevronRight, LocationEdit as Edit } from "lucide-react-native";
+import {
+	Award,
+	Bell,
+	BookOpen,
+	ChevronRight,
+	LocationEdit as Edit,
+	CircleHelp as HelpCircle,
+	LogOut,
+	Settings,
+	User,
+} from "lucide-react-native";
+import React from "react";
 import { Alert } from "react-native";
-import { ScrollView } from "@/components/ui/scroll-view";
-import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
-import { Heading } from "@/components/ui/heading";
-import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 
 export default function ProfileScreen() {
 	const { user, signOut } = useAuth();
@@ -24,7 +33,7 @@ export default function ProfileScreen() {
 				style: "destructive",
 				onPress: async () => {
 					await signOut();
-					router.replace("/");
+					router.replace("/auth/login");
 				},
 			},
 		]);
@@ -65,12 +74,8 @@ export default function ProfileScreen() {
 									{user?.email?.charAt(0).toUpperCase() || "U"}
 								</AvatarFallbackText>
 							</Avatar>
-							<Button 
-								size="sm" 
-								variant="outline" 
-								className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full p-0"
-							>
-								<ButtonIcon as={Edit} size={16} />
+							<Button size="sm" variant="outline" className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full p-0">
+								<ButtonIcon as={Edit} size="md" />
 							</Button>
 						</Box>
 
@@ -88,9 +93,7 @@ export default function ProfileScreen() {
 									<Heading size="lg" className="text-typography-900 mt-2">
 										{stat.value}
 									</Heading>
-									<Text className="text-xs text-typography-600 text-center">
-										{stat.label}
-									</Text>
+									<Text className="text-xs text-typography-600 text-center">{stat.label}</Text>
 								</VStack>
 							))}
 						</HStack>
@@ -99,10 +102,10 @@ export default function ProfileScreen() {
 					{/* Menu Section */}
 					<VStack space="xs" className="px-6">
 						{menuItems.map((item) => (
-							<Button 
-								key={item.title} 
-								variant="link" 
-								className="justify-start p-4 border-b border-outline-100"
+							<Button
+								key={item.title}
+								variant="link"
+								className="justify-start border-b border-outline-100"
 								onPress={item.onPress}
 							>
 								<HStack className="justify-between items-center flex-1">
@@ -110,9 +113,7 @@ export default function ProfileScreen() {
 										<Box className="w-10 h-10 bg-background-100 rounded-full items-center justify-center">
 											<item.icon size={20} color="#6366f1" />
 										</Box>
-										<ButtonText className="text-typography-900 font-medium">
-											{item.title}
-										</ButtonText>
+										<ButtonText className="text-typography-900 font-medium">{item.title}</ButtonText>
 									</HStack>
 									<ChevronRight size={20} color="#9ca3af" />
 								</HStack>
@@ -122,8 +123,8 @@ export default function ProfileScreen() {
 
 					{/* Sign Out */}
 					<Box className="px-6">
-						<Button 
-							variant="outline" 
+						<Button
+							variant="outline"
 							action="negative"
 							className="bg-error-50 border-error-300"
 							onPress={handleSignOut}
