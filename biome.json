@@ -8,7 +8,12 @@
 	"files": {
 		"ignoreUnknown": true,
 		"include": ["src/**", "app/**", "components/**"],
-		"ignore": ["dist/**", "node_modules/**", "assets/**"]
+		"ignore": [
+			"dist/**",
+			"node_modules/**",
+			"assets/**",
+			"components/ui/**"
+		]
 	},
 	"formatter": {
 		"enabled": true,

@@ -1,9 +1,11 @@
 import { useEffect } from "react";
-import { Stack } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+import "@/global.css";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { useFrameworkReady } from "@/hooks/useFrameworkReady";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { StatusBar } from "expo-status-bar";
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
@@ -22,16 +24,18 @@ export default function RootLayout() {
 	}
 
 	return (
-		<AuthProvider>
-			<Stack screenOptions={{ headerShown: false }}>
-				<Stack.Screen name="index" />
-				<Stack.Screen name="auth/login" />
-				<Stack.Screen name="auth/signup" />
-				<Stack.Screen name="auth/forgot-password" />
-				<Stack.Screen name="(tabs)" />
-				<Stack.Screen name="+not-found" />
-			</Stack>
-			<StatusBar style="auto" />
-		</AuthProvider>
+		<GluestackUIProvider mode="light">
+			<AuthProvider>
+				<Stack screenOptions={{ headerShown: false }}>
+					<Stack.Screen name="index" />
+					<Stack.Screen name="auth/login" />
+					<Stack.Screen name="auth/signup" />
+					<Stack.Screen name="auth/forgot-password" />
+					<Stack.Screen name="(tabs)" />
+					<Stack.Screen name="+not-found" />
+				</Stack>
+				<StatusBar style="auto" />
+			</AuthProvider>
+		</GluestackUIProvider>
 	);
 }

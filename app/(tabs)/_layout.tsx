@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
+import { BookOpen, House as Home, Map as MapIcon, Search, User } from "lucide-react-native";
 import React from "react";
 import { Platform } from "react-native";
-import { Chrome as Home, BookOpen, User, Search, Map } from "lucide-react-native";
 
 export default function TabLayout() {
 	return (
@@ -35,7 +35,7 @@ export default function TabLayout() {
 				name="paths"
 				options={{
 					title: "Paths",
-					tabBarIcon: ({ color, size }) => <Map size={size} color={color} />,
+					tabBarIcon: ({ color, size }) => <MapIcon size={size} color={color} />,
 				}}
 			/>
 			<Tabs.Screen
