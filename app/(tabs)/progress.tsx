@@ -8,19 +8,7 @@ import { Progress, ProgressFilledTrack } from "@/components/ui/progress";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { 
-	ArrowLeft, 
-	Award, 
-	BookOpen, 
-	Calendar, 
-	Clock, 
-	Filter, 
-	TrendingUp, 
-	Target,
-	BarChart3,
-	Trophy,
-	Flame
-} from "lucide-react-native";
+import { ArrowLeft, Award, BookOpen, Calendar, Clock, ListFilter as Filter, TrendingUp, Target, ChartBar as BarChart3, Trophy, Flame } from "lucide-react-native";
 import React, { useState } from "react";
 import { router } from "expo-router";
 
