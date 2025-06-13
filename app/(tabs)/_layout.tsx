@@ -46,6 +46,18 @@ export default function TabLayout() {
 					href: null, // Hide from tab bar
 				}}
 			/>
+			<Tabs.Screen
+				name="course"
+				options={{
+					href: null, // Hide from tab bar
+				}}
+			/>
+			<Tabs.Screen
+				name="lesson"
+				options={{
+					href: null, // Hide from tab bar
+				}}
+			/>
 		</Tabs>
 	);
 }

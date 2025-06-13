@@ -71,8 +71,14 @@ export default function LearningPathDetailScreen() {
       key={course.id} 
       style={styles.courseCard}
       onPress={() => {
-        // Navigate to course detail (to be implemented)
-        console.log('Navigate to course:', course.id);
+        // Navigate to course detail page
+        router.push({
+          pathname: '/(tabs)/course/[courseId]',
+          params: { 
+            courseId: course.id,
+            pathId: id 
+          }
+        });
       }}
     >
       <View style={styles.courseHeader}>
