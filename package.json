@@ -45,13 +45,13 @@
     "react-native-svg": "^15.8.0",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
+    "burnt": "^0.13.0",
     "tamagui": "^1.112.21"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@biomejs/biome": "^1.9.4",
     "@types/react": "~19.0.14",
-    "burnt": "^0.13.0",
     "typescript": "~5.8.3"
   },
   "private": true
