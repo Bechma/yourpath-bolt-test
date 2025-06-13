@@ -8,9 +8,8 @@ import {
   useTheme,
   H1,
   Separator,
-  Toast,
-  useToastController,
 } from 'tamagui';
+import { Toast, useToastController } from '@tamagui/toast';
 import { Platform } from 'react-native';
 import { Plus } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
