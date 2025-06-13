@@ -13,6 +13,7 @@ import { Toast, useToastController } from '@tamagui/toast';
 import { Platform } from 'react-native';
 import { Plus } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useRouter } from 'expo-router';
 
 import { LearningPathCard } from '@/components/LearningPathCard';
 import { FilterSortControls } from '@/components/FilterSortControls';
@@ -30,6 +31,7 @@ export default function LearningPathsScreen() {
 
   const toast = useToastController();
   const theme = useTheme();
+  const router = useRouter();
 
   const {
     learningPaths,
@@ -52,10 +54,8 @@ export default function LearningPathsScreen() {
   };
 
   const handleCardPress = (id: string) => {
-    toast.show('Learning Path Details', {
-      message: `Opening details for learning path ${id}`,
-      duration: 2000,
-    });
+    // Navigate to the learning path detail page
+    router.push(`/(tabs)/learning-path/${id}`);
   };
 
   if (loading) {
