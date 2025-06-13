@@ -39,7 +39,7 @@
     "react-native-webview": "13.13.5",
     "native-base": "^3.4.28",
     "react-native-svg": "^15.8.0",
-    "lucide-react-native": "^0.468.0"
+    "lucide-react-native": "^0.515.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
