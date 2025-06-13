@@ -3,7 +3,9 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import "react-native-reanimated";
-import { NativeBaseProvider } from "native-base";
+import { TamaguiProvider } from '@tamagui/core';
+import { ToastProvider } from '@tamagui/toast';
+import config from '../tamagui.config';
 
 import { useColorScheme } from "@/hooks/useColorScheme"
 import { useFrameworkReady } from '@/hooks/useFrameworkReady';
@@ -20,14 +22,16 @@ export default function RootLayout() {
 	}
 
 	return (
-		<NativeBaseProvider>
-			<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-				<Stack>
-					<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-					<Stack.Screen name="+not-found" />
-				</Stack>
-				<StatusBar style="auto" />
-			</ThemeProvider>
-		</NativeBaseProvider>
+		<TamaguiProvider config={config} defaultTheme={colorScheme === 'dark' ? 'dark' : 'light'}>
+			<ToastProvider>
+				<ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+					<Stack>
+						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+						<Stack.Screen name="+not-found" />
+					</Stack>
+					<StatusBar style="auto" />
+				</ThemeProvider>
+			</ToastProvider>
+		</TamaguiProvider>
 	);
 }

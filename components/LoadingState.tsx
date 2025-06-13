@@ -1,45 +1,45 @@
 import React from 'react';
-import { VStack, HStack, Skeleton, Box } from 'native-base';
+import { YStack, XStack, Skeleton, Card } from 'tamagui';
 
 export function LoadingState() {
   return (
-    <VStack space={6} p={4}>
+    <YStack space="$6" padding="$4">
       {/* Header skeleton */}
-      <VStack space={4}>
-        <Skeleton h="10" w="200px" rounded="md" />
-        <HStack space={4} flexWrap="wrap">
-          <Skeleton h="10" w="150px" rounded="md" />
-          <Skeleton h="10" w="150px" rounded="md" />
-          <Skeleton h="10" w="150px" rounded="md" />
-          <Skeleton h="10" w="150px" rounded="md" />
-        </HStack>
-      </VStack>
+      <YStack space="$4">
+        <Skeleton height="$4" width={200} />
+        <XStack space="$4" flexWrap="wrap">
+          <Skeleton height="$4" width={150} />
+          <Skeleton height="$4" width={150} />
+          <Skeleton height="$4" width={150} />
+          <Skeleton height="$4" width={150} />
+        </XStack>
+      </YStack>
 
       {/* Cards skeleton */}
-      <VStack space={4}>
+      <YStack space="$4">
         {[1, 2, 3, 4, 5, 6].map((item) => (
-          <Box key={item} borderWidth={1} borderColor="gray.200" borderRadius="xl" p={4}>
-            <VStack space={3}>
-              <Skeleton h="200px" w="100%" rounded="lg" />
-              <VStack space={2}>
-                <Skeleton h="6" w="80%" rounded="md" />
-                <Skeleton h="4" w="100%" rounded="md" />
-                <Skeleton h="4" w="90%" rounded="md" />
-                <HStack space={2} justifyContent="space-between">
-                  <Skeleton h="6" w="100px" rounded="md" />
-                  <Skeleton h="6" w="80px" rounded="md" />
-                </HStack>
-                <HStack space={2}>
-                  <Skeleton h="4" w="40px" rounded="md" />
-                  <Skeleton h="4" w="40px" rounded="md" />
-                  <Skeleton h="4" w="40px" rounded="md" />
-                </HStack>
-                <Skeleton h="2" w="100%" rounded="full" />
-              </VStack>
-            </VStack>
-          </Box>
+          <Card key={item} bordered padding="$4">
+            <YStack space="$3">
+              <Skeleton height={200} width="100%" />
+              <YStack space="$2">
+                <Skeleton height="$3" width="80%" />
+                <Skeleton height="$2" width="100%" />
+                <Skeleton height="$2" width="90%" />
+                <XStack space="$2" justifyContent="space-between">
+                  <Skeleton height="$3" width={100} />
+                  <Skeleton height="$3" width={80} />
+                </XStack>
+                <XStack space="$2">
+                  <Skeleton height="$2" width={40} />
+                  <Skeleton height="$2" width={40} />
+                  <Skeleton height="$2" width={40} />
+                </XStack>
+                <Skeleton height="$1" width="100%" />
+              </YStack>
+            </YStack>
+          </Card>
         ))}
-      </VStack>
-    </VStack>
+      </YStack>
+    </YStack>
   );
 }

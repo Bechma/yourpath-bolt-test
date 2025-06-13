@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import {
-  Box,
-  VStack,
-  HStack,
+  YStack,
+  XStack,
   Text,
   Button,
   ScrollView,
-  useColorModeValue,
-  Heading,
-  Divider,
-  useToast,
-} from 'native-base';
+  useTheme,
+  H1,
+  Separator,
+  Toast,
+  useToastController,
+} from 'tamagui';
 import { Platform } from 'react-native';
 import { Plus } from 'lucide-react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -29,10 +29,8 @@ export default function LearningPathsScreen() {
   const [completionFilter, setCompletionFilter] = useState<CompletionFilter>('all');
   const [subjectAreaFilter, setSubjectAreaFilter] = useState<string>('all');
 
-  const toast = useToast();
-  const bg = useColorModeValue('gray.50', 'gray.900');
-  const headerBg = useColorModeValue('white', 'gray.800');
-  const textColor = useColorModeValue('gray.900', 'white');
+  const toast = useToastController();
+  const theme = useTheme();
 
   const {
     learningPaths,
@@ -48,19 +46,15 @@ export default function LearningPathsScreen() {
   });
 
   const handleCreateLearningPath = () => {
-    toast.show({
-      title: "Create Learning Path",
-      description: "This feature will be implemented soon!",
-      status: "info",
+    toast.show('Create Learning Path', {
+      message: 'This feature will be implemented soon!',
       duration: 3000,
     });
   };
 
   const handleCardPress = (id: string) => {
-    toast.show({
-      title: "Learning Path Details",
-      description: `Opening details for learning path ${id}`,
-      status: "info",
+    toast.show('Learning Path Details', {
+      message: `Opening details for learning path ${id}`,
       duration: 2000,
     });
   };
@@ -74,40 +68,40 @@ export default function LearningPathsScreen() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: bg }} edges={['top']}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: theme.background.val }} edges={['top']}>
       <ScrollView
         flex={1}
-        bg={bg}
+        backgroundColor="$background"
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ flexGrow: 1 }}
       >
         {/* Header */}
-        <Box bg={headerBg} px={4} py={6} shadow={1}>
-          <VStack space={4}>
-            <HStack justifyContent="space-between" alignItems="center" flexWrap="wrap">
-              <VStack space={1} flex={1}>
-                <Heading size="xl" color={textColor}>
+        <YStack backgroundColor="$backgroundHover" padding="$4" paddingVertical="$6" shadowColor="$shadowColor" shadowOffset={{ width: 0, height: 1 }} shadowOpacity={0.1} shadowRadius={4}>
+          <YStack space="$4">
+            <XStack justifyContent="space-between" alignItems="center" flexWrap="wrap">
+              <YStack space="$1" flex={1}>
+                <H1 size="$10" color="$color">
                   Learning Paths
-                </Heading>
-                <Text fontSize="md" color="gray.500">
+                </H1>
+                <Text fontSize="$4" color="$color11">
                   Discover structured learning journeys
                 </Text>
-              </VStack>
+              </YStack>
               <Button
                 onPress={handleCreateLearningPath}
-                colorScheme="blue"
-                leftIcon={<Plus size={20} color="white" />}
-                size="lg"
-                borderRadius="xl"
-                _pressed={{ opacity: 0.8 }}
-                accessibilityLabel="Create new learning path"
-                mt={Platform.select({ base: 4, md: 0 })}
+                backgroundColor="$blue10"
+                color="white"
+                icon={Plus}
+                size="$5"
+                borderRadius="$4"
+                pressStyle={{ opacity: 0.8 }}
+                marginTop={Platform.select({ default: '$4', md: 0 })}
               >
                 Create Path
               </Button>
-            </HStack>
+            </XStack>
 
-            <Divider />
+            <Separator />
 
             <FilterSortControls
               sortBy={sortBy}
@@ -120,25 +114,25 @@ export default function LearningPathsScreen() {
               selectedSubjectArea={subjectAreaFilter}
               onSubjectAreaChange={setSubjectAreaFilter}
             />
-          </VStack>
-        </Box>
+          </YStack>
+        </YStack>
 
         {/* Content */}
-        <Box flex={1} p={4}>
+        <YStack flex={1} padding="$4">
           {learningPaths.length === 0 ? (
             <EmptyState
               message="No learning paths found"
               description="Try adjusting your filters or create a new learning path to get started."
             />
           ) : (
-            <VStack space={4}>
-              <HStack justifyContent="space-between" alignItems="center">
-                <Text fontSize="sm" color="gray.500">
+            <YStack space="$4">
+              <XStack justifyContent="space-between" alignItems="center">
+                <Text fontSize="$3" color="$color11">
                   {learningPaths.length} learning path{learningPaths.length !== 1 ? 's' : ''} found
                 </Text>
-              </HStack>
+              </XStack>
 
-              <VStack space={6}>
+              <YStack space="$6">
                 {learningPaths.map((path) => (
                   <LearningPathCard
                     key={path.id}
@@ -146,11 +140,13 @@ export default function LearningPathsScreen() {
                     onPress={handleCardPress}
                   />
                 ))}
-              </VStack>
-            </VStack>
+              </YStack>
+            </YStack>
           )}
-        </Box>
+        </YStack>
       </ScrollView>
+      
+      <Toast />
     </SafeAreaView>
   );
 }

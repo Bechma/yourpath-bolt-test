@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, Text, useColorModeValue } from 'native-base';
+import { YStack, Text, useTheme } from 'tamagui';
 import { BookOpen } from 'lucide-react-native';
 
 interface EmptyStateProps {
@@ -8,28 +8,27 @@ interface EmptyStateProps {
 }
 
 export function EmptyState({ message, description }: EmptyStateProps) {
-  const textColor = useColorModeValue('gray.600', 'gray.300');
-  const iconColor = useColorModeValue('#9ca3af', '#6b7280');
+  const theme = useTheme();
 
   return (
-    <VStack
-      space={4}
+    <YStack
+      space="$4"
       alignItems="center"
       justifyContent="center"
-      p={8}
-      minH="400px"
+      padding="$8"
+      minHeight={400}
     >
-      <BookOpen size={64} color={iconColor} />
-      <VStack space={2} alignItems="center">
-        <Text fontSize="lg" fontWeight="bold" textAlign="center">
+      <BookOpen size={64} color={theme.color11.val} />
+      <YStack space="$2" alignItems="center">
+        <Text fontSize="$6" fontWeight="bold" textAlign="center">
           {message}
         </Text>
         {description && (
-          <Text fontSize="md" color={textColor} textAlign="center" maxW="300px">
+          <Text fontSize="$4" color="$color11" textAlign="center" maxWidth={300}>
             {description}
           </Text>
         )}
-      </VStack>
-    </VStack>
+      </YStack>
+    </YStack>
   );
 }

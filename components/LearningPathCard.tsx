@@ -1,15 +1,15 @@
 import React from 'react';
+import { Platform } from 'react-native';
 import {
-  Box,
-  VStack,
-  HStack,
+  Card,
+  XStack,
+  YStack,
   Text,
-  Badge,
+  Button,
   Progress,
-  Pressable,
   Image,
-  useColorModeValue,
-} from 'native-base';
+  useTheme,
+} from 'tamagui';
 import { BookOpen, Clock, TrendingUp } from 'lucide-react-native';
 import { LearningPath } from '@/types/learningPath';
 
@@ -19,34 +19,31 @@ interface LearningPathCardProps {
 }
 
 export function LearningPathCard({ learningPath, onPress }: LearningPathCardProps) {
-  const cardBg = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const textColor = useColorModeValue('gray.600', 'gray.300');
-  const titleColor = useColorModeValue('gray.900', 'white');
+  const theme = useTheme();
 
   const getDifficultyColor = (level: string) => {
     switch (level) {
       case 'beginner':
-        return 'success';
+        return '$green10';
       case 'intermediate':
-        return 'warning';
+        return '$orange10';
       case 'advanced':
-        return 'error';
+        return '$red10';
       default:
-        return 'info';
+        return '$blue10';
     }
   };
 
   const getCompletionStatusColor = (status: string) => {
     switch (status) {
       case 'completed':
-        return 'success';
+        return '$green10';
       case 'in-progress':
-        return 'info';
+        return '$blue10';
       case 'not-started':
-        return 'gray';
+        return '$gray10';
       default:
-        return 'gray';
+        return '$gray10';
     }
   };
 
@@ -64,124 +61,156 @@ export function LearningPathCard({ learningPath, onPress }: LearningPathCardProp
   };
 
   return (
-    <Pressable
+    <Card
+      elevate
+      size="$4"
+      bordered
+      animation="bouncy"
+      scale={0.9}
+      hoverStyle={{ scale: 0.925 }}
+      pressStyle={{ scale: 0.875 }}
       onPress={() => onPress(learningPath.id)}
-      _pressed={{ opacity: 0.8 }}
-      _hover={{ transform: [{ scale: 1.02 }] }}
-      accessibilityRole="button"
-      accessibilityLabel={`Learning path: ${learningPath.title}`}
-      accessibilityHint="Tap to view details"
+      cursor="pointer"
+      overflow="hidden"
+      backgroundColor="$background"
+      borderColor="$borderColor"
+      shadowColor="$shadowColor"
+      shadowOffset={{ width: 0, height: 2 }}
+      shadowOpacity={0.1}
+      shadowRadius={8}
+      maxWidth={400}
+      width="100%"
     >
-      <Box
-        bg={cardBg}
-        borderWidth={1}
-        borderColor={borderColor}
-        borderRadius="xl"
-        overflow="hidden"
-        shadow={2}
-        _hover={{ shadow: 4 }}
-        transition={{ duration: 200 }}
-      >
+      <Card.Header padding={0}>
         <Image
           source={{ uri: learningPath.imageUrl }}
-          alt={learningPath.title}
-          height="200px"
           width="100%"
+          height={200}
           resizeMode="cover"
         />
-        
-        <VStack p={4} space={3}>
-          <VStack space={2}>
-            <HStack justifyContent="space-between" alignItems="flex-start">
-              <Text
-                fontSize="lg"
-                fontWeight="bold"
-                color={titleColor}
-                flex={1}
-                numberOfLines={2}
-              >
-                {learningPath.title}
-              </Text>
-              <Badge
-                colorScheme={getCompletionStatusColor(learningPath.completionStatus)}
-                variant="subtle"
-                ml={2}
-              >
-                {getCompletionStatusText(learningPath.completionStatus)}
-              </Badge>
-            </HStack>
-            
+      </Card.Header>
+      
+      <YStack padding="$4" space="$3">
+        <YStack space="$2">
+          <XStack justifyContent="space-between" alignItems="flex-start">
             <Text
-              fontSize="sm"
-              color={textColor}
-              numberOfLines={3}
-              lineHeight="sm"
+              fontSize="$6"
+              fontWeight="bold"
+              color="$color"
+              flex={1}
+              numberOfLines={2}
             >
-              {learningPath.description}
+              {learningPath.title}
             </Text>
-          </VStack>
+            <Button
+              size="$2"
+              variant="outlined"
+              backgroundColor={getCompletionStatusColor(learningPath.completionStatus)}
+              borderColor={getCompletionStatusColor(learningPath.completionStatus)}
+              color="white"
+              marginLeft="$2"
+              disabled
+            >
+              {getCompletionStatusText(learningPath.completionStatus)}
+            </Button>
+          </XStack>
+          
+          <Text
+            fontSize="$3"
+            color="$color11"
+            numberOfLines={3}
+            lineHeight="$1"
+          >
+            {learningPath.description}
+          </Text>
+        </YStack>
 
-          <HStack justifyContent="space-between" alignItems="center">
-            <HStack space={1} alignItems="center">
-              <BookOpen size={16} color={textColor} />
-              <Text fontSize="sm" color={textColor}>
-                {learningPath.totalCourses} courses
-              </Text>
-            </HStack>
-            
-            <Badge colorScheme="blue" variant="outline">
-              {learningPath.subjectArea}
-            </Badge>
-          </HStack>
+        <XStack justifyContent="space-between" alignItems="center">
+          <XStack space="$1" alignItems="center">
+            <BookOpen size={16} color={theme.color11.val} />
+            <Text fontSize="$3" color="$color11">
+              {learningPath.totalCourses} courses
+            </Text>
+          </XStack>
+          
+          <Button
+            size="$2"
+            variant="outlined"
+            backgroundColor="$blue2"
+            borderColor="$blue8"
+            color="$blue11"
+            disabled
+          >
+            {learningPath.subjectArea}
+          </Button>
+        </XStack>
 
-          <VStack space={2}>
-            <HStack justifyContent="space-between" alignItems="center">
-              <Text fontSize="xs" color={textColor} fontWeight="medium">
-                Difficulty Distribution
-              </Text>
-              <HStack space={1}>
-                {learningPath.difficultyDistribution.beginner > 0 && (
-                  <Badge size="xs" colorScheme={getDifficultyColor('beginner')}>
-                    B: {learningPath.difficultyDistribution.beginner}
-                  </Badge>
-                )}
-                {learningPath.difficultyDistribution.intermediate > 0 && (
-                  <Badge size="xs" colorScheme={getDifficultyColor('intermediate')}>
-                    I: {learningPath.difficultyDistribution.intermediate}
-                  </Badge>
-                )}
-                {learningPath.difficultyDistribution.advanced > 0 && (
-                  <Badge size="xs" colorScheme={getDifficultyColor('advanced')}>
-                    A: {learningPath.difficultyDistribution.advanced}
-                  </Badge>
-                )}
-              </HStack>
-            </HStack>
+        <YStack space="$2">
+          <XStack justifyContent="space-between" alignItems="center">
+            <Text fontSize="$2" color="$color11" fontWeight="500">
+              Difficulty Distribution
+            </Text>
+            <XStack space="$1">
+              {learningPath.difficultyDistribution.beginner > 0 && (
+                <Button
+                  size="$1"
+                  backgroundColor={getDifficultyColor('beginner')}
+                  color="white"
+                  disabled
+                >
+                  B: {learningPath.difficultyDistribution.beginner}
+                </Button>
+              )}
+              {learningPath.difficultyDistribution.intermediate > 0 && (
+                <Button
+                  size="$1"
+                  backgroundColor={getDifficultyColor('intermediate')}
+                  color="white"
+                  disabled
+                >
+                  I: {learningPath.difficultyDistribution.intermediate}
+                </Button>
+              )}
+              {learningPath.difficultyDistribution.advanced > 0 && (
+                <Button
+                  size="$1"
+                  backgroundColor={getDifficultyColor('advanced')}
+                  color="white"
+                  disabled
+                >
+                  A: {learningPath.difficultyDistribution.advanced}
+                </Button>
+              )}
+            </XStack>
+          </XStack>
 
-            {learningPath.progress !== undefined && (
-              <VStack space={1}>
-                <HStack justifyContent="space-between" alignItems="center">
-                  <HStack space={1} alignItems="center">
-                    <TrendingUp size={14} color={textColor} />
-                    <Text fontSize="xs" color={textColor}>
-                      Progress
-                    </Text>
-                  </HStack>
-                  <Text fontSize="xs" color={textColor} fontWeight="medium">
-                    {learningPath.progress}%
+          {learningPath.progress !== undefined && (
+            <YStack space="$1">
+              <XStack justifyContent="space-between" alignItems="center">
+                <XStack space="$1" alignItems="center">
+                  <TrendingUp size={14} color={theme.color11.val} />
+                  <Text fontSize="$2" color="$color11">
+                    Progress
                   </Text>
-                </HStack>
-                <Progress
-                  value={learningPath.progress}
-                  colorScheme="blue"
-                  size="sm"
-                  borderRadius="full"
+                </XStack>
+                <Text fontSize="$2" color="$color11" fontWeight="500">
+                  {learningPath.progress}%
+                </Text>
+              </XStack>
+              <Progress
+                value={learningPath.progress}
+                backgroundColor="$gray5"
+                size="$2"
+              >
+                <Progress.Indicator
+                  animation="bouncy"
+                  backgroundColor="$blue10"
                 />
-              </VStack>
-            )}
-          </VStack>
-        </VStack>
-      </Box>
-    </Pressable>
+              </Progress>
+            </YStack>
+          )}
+        </YStack>
+      </YStack>
+    </Card>
   );
 }

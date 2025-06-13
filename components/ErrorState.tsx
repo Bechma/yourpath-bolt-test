@@ -1,5 +1,5 @@
 import React from 'react';
-import { VStack, Text, Button, useColorModeValue } from 'native-base';
+import { YStack, Text, Button, useTheme } from 'tamagui';
 import { AlertCircle, RefreshCw } from 'lucide-react-native';
 
 interface ErrorStateProps {
@@ -8,34 +8,34 @@ interface ErrorStateProps {
 }
 
 export function ErrorState({ message, onRetry }: ErrorStateProps) {
-  const textColor = useColorModeValue('gray.600', 'gray.300');
-  const iconColor = useColorModeValue('#ef4444', '#f87171');
+  const theme = useTheme();
 
   return (
-    <VStack
-      space={4}
+    <YStack
+      space="$4"
       alignItems="center"
       justifyContent="center"
-      p={8}
-      minH="400px"
+      padding="$8"
+      minHeight={400}
     >
-      <AlertCircle size={64} color={iconColor} />
-      <VStack space={2} alignItems="center">
-        <Text fontSize="lg" fontWeight="bold" textAlign="center">
+      <AlertCircle size={64} color={theme.red10.val} />
+      <YStack space="$2" alignItems="center">
+        <Text fontSize="$6" fontWeight="bold" textAlign="center">
           Something went wrong
         </Text>
-        <Text fontSize="md" color={textColor} textAlign="center" maxW="300px">
+        <Text fontSize="$4" color="$color11" textAlign="center" maxWidth={300}>
           {message}
         </Text>
-      </VStack>
+      </YStack>
       <Button
         onPress={onRetry}
-        colorScheme="blue"
-        leftIcon={<RefreshCw size={16} color="white" />}
-        accessibilityLabel="Retry loading learning paths"
+        backgroundColor="$blue10"
+        color="white"
+        icon={RefreshCw}
+        size="$4"
       >
         Try Again
       </Button>
-    </VStack>
+    </YStack>
   );
 }
