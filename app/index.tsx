@@ -1,15 +1,15 @@
-import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
 import { ArrowRight, GraduationCap } from "lucide-react-native";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Box } from "@/components/ui/box";
-import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
-import { Text } from "@/components/ui/text";
-import { Heading } from "@/components/ui/heading";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { Center } from "@/components/ui/center";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
 import { Spinner } from "@/components/ui/spinner";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function LandingPage() {
 	const { user, loading } = useAuth();
@@ -48,16 +48,12 @@ export default function LandingPage() {
 							Unlock your potential with personalized learning experiences
 						</Heading>
 						<Text className="text-center text-typography-500 leading-6 max-w-sm">
-							Join thousands of learners on their journey to mastery. Access expert-crafted courses, track your progress,
-							and achieve your goals.
+							Join thousands of learners on their journey to mastery. Access expert-crafted courses, track your
+							progress, and achieve your goals.
 						</Text>
 					</VStack>
 
-					<Button 
-						size="lg" 
-						className="w-full shadow-hard-2" 
-						onPress={() => router.push("/auth/login")}
-					>
+					<Button size="lg" className="w-full shadow-hard-2" onPress={() => router.push("/auth/login")}>
 						<ButtonText className="text-lg font-semibold">Get Started</ButtonText>
 						<ButtonIcon as={ArrowRight} className="ml-2" />
 					</Button>

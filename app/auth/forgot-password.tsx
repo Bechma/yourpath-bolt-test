@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { router } from "expo-router";
-import { useAuth } from "@/contexts/AuthContext";
 import { ArrowLeft, Mail } from "lucide-react-native";
+import { useState } from "react";
+import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
+import { HStack } from "@/components/ui/hstack";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ForgotPasswordScreen() {
 	const [email, setEmail] = useState("");
@@ -36,17 +36,16 @@ export default function ForgotPasswordScreen() {
 	};
 
 	return (
-		<KeyboardAvoidingView 
-			style={{ flex: 1 }} 
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-		>
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 			<Box className="flex-1 bg-background-0">
 				{/* Header */}
 				<HStack className="justify-between items-center px-5 pt-16 pb-5">
 					<Button variant="link" size="sm" onPress={() => router.back()}>
 						<ButtonIcon as={ArrowLeft} className="text-typography-700" />
 					</Button>
-					<Heading size="md" className="text-typography-700">Reset Password</Heading>
+					<Heading size="md" className="text-typography-700">
+						Reset Password
+					</Heading>
 					<Box className="w-10" />
 				</HStack>
 
@@ -76,15 +75,8 @@ export default function ForgotPasswordScreen() {
 							/>
 						</Input>
 
-						<Button 
-							size="lg" 
-							className="shadow-soft-2"
-							onPress={handleResetPassword}
-							disabled={loading}
-						>
-							<ButtonText className="font-semibold">
-								{loading ? "Sending..." : "Send Reset Link"}
-							</ButtonText>
+						<Button size="lg" className="shadow-soft-2" onPress={handleResetPassword} disabled={loading}>
+							<ButtonText className="font-semibold">{loading ? "Sending..." : "Send Reset Link"}</ButtonText>
 						</Button>
 					</VStack>
 

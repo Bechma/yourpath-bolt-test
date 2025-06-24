@@ -1,12 +1,3 @@
-import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
-import { Box } from "@/components/ui/box";
-import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
-import { Heading } from "@/components/ui/heading";
-import { HStack } from "@/components/ui/hstack";
-import { ScrollView } from "@/components/ui/scroll-view";
-import { Text } from "@/components/ui/text";
-import { VStack } from "@/components/ui/vstack";
-import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
 import {
 	Award,
@@ -19,8 +10,16 @@ import {
 	Settings,
 	User,
 } from "lucide-react-native";
-import React from "react";
 import { Alert } from "react-native";
+import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
+import { Box } from "@/components/ui/box";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
+import { Heading } from "@/components/ui/heading";
+import { HStack } from "@/components/ui/hstack";
+import { ScrollView } from "@/components/ui/scroll-view";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function ProfileScreen() {
 	const { user, signOut } = useAuth();

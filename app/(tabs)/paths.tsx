@@ -1,3 +1,6 @@
+import { Image } from "expo-image";
+import { BookOpen, Calendar, Clock, ListFilter as Filter, Plus, Search, Star, User, Users } from "lucide-react-native";
+import { useState } from "react";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
@@ -11,14 +14,11 @@ import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { mockLearningPaths } from "@/data/mockData";
 import type { LearningPath } from "@/types/learning";
-import { Image } from "expo-image";
-import { BookOpen, Calendar, Clock, ListFilter as Filter, Plus, Search, Star, User, Users } from "lucide-react-native";
-import React, { useState } from "react";
 
 export default function PathsScreen() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedDifficulty, setSelectedDifficulty] = useState("All");
-	const [learningPaths, setLearningPaths] = useState(mockLearningPaths);
+	const [learningPaths, _setLearningPaths] = useState(mockLearningPaths);
 
 	const difficulties = ["All", "Beginner", "Intermediate", "Advanced", "Expert", "Guru"];
 

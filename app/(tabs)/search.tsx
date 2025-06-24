@@ -1,3 +1,5 @@
+import { BookOpen, Clock, Search, TrendingUp } from "lucide-react-native";
+import { useState } from "react";
 import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
@@ -8,8 +10,6 @@ import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { BookOpen, Clock, Search, TrendingUp } from "lucide-react-native";
-import React, { useState } from "react";
 
 export default function SearchScreen() {
 	const [searchQuery, setSearchQuery] = useState("");

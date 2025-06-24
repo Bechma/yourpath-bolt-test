@@ -1,3 +1,6 @@
+import { Image } from "expo-image";
+import { router } from "expo-router";
+import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
 import { Avatar, AvatarFallbackText } from "@/components/ui/avatar";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonText } from "@/components/ui/button";
@@ -9,10 +12,6 @@ import { ScrollView } from "@/components/ui/scroll-view";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
 import { useAuth } from "@/contexts/AuthContext";
-import { Image } from "expo-image";
-import { Award, BookOpen, Clock, TrendingUp } from "lucide-react-native";
-import React from "react";
-import { router } from "expo-router";
 
 export default function HomeScreen() {
 	const { user } = useAuth();
@@ -133,8 +132,8 @@ export default function HomeScreen() {
 							Quick Actions
 						</Heading>
 						<HStack space="md">
-							<Button 
-								variant="link" 
+							<Button
+								variant="link"
 								className="flex-1 p-5 bg-background-50 border-0 rounded-lg"
 								onPress={handleBrowseCourses}
 							>
@@ -146,8 +145,8 @@ export default function HomeScreen() {
 									<Text className="text-xs text-typography-500 mt-1 text-center">Discover new topics</Text>
 								</VStack>
 							</Button>
-							<Button 
-								variant="link" 
+							<Button
+								variant="link"
 								className="flex-1 p-5 bg-background-50 border-0 rounded-lg"
 								onPress={handleViewProgress}
 							>

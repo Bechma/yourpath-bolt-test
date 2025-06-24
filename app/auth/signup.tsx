@@ -1,15 +1,15 @@
-import { useAuth } from "@/contexts/AuthContext";
 import { router } from "expo-router";
 import { ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react-native";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Alert, KeyboardAvoidingView, Platform } from "react-native";
 import { Box } from "@/components/ui/box";
-import { VStack } from "@/components/ui/vstack";
-import { HStack } from "@/components/ui/hstack";
-import { Text } from "@/components/ui/text";
+import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
-import { Button, ButtonText, ButtonIcon } from "@/components/ui/button";
+import { HStack } from "@/components/ui/hstack";
 import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
+import { Text } from "@/components/ui/text";
+import { VStack } from "@/components/ui/vstack";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignupScreen() {
 	const [email, setEmail] = useState("");
@@ -50,17 +50,16 @@ export default function SignupScreen() {
 	};
 
 	return (
-		<KeyboardAvoidingView 
-			style={{ flex: 1 }} 
-			behavior={Platform.OS === "ios" ? "padding" : "height"}
-		>
+		<KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
 			<Box className="flex-1 bg-background-0">
 				{/* Header */}
 				<HStack className="justify-between items-center px-5 pt-16 pb-5">
 					<Button variant="link" size="sm" onPress={() => router.back()}>
 						<ButtonIcon as={ArrowLeft} className="text-typography-700" />
 					</Button>
-					<Heading size="md" className="text-typography-700">Create Account</Heading>
+					<Heading size="md" className="text-typography-700">
+						Create Account
+					</Heading>
 					<Box className="w-10" />
 				</HStack>
 
@@ -102,15 +101,8 @@ export default function SignupScreen() {
 									className="pr-12"
 								/>
 								<InputSlot className="pr-4">
-									<Button 
-										variant="link" 
-										size="sm" 
-										onPress={() => setShowPassword(!showPassword)}
-									>
-										<ButtonIcon 
-											as={showPassword ? EyeOff : Eye} 
-											className="text-typography-400" 
-										/>
+									<Button variant="link" size="sm" onPress={() => setShowPassword(!showPassword)}>
+										<ButtonIcon as={showPassword ? EyeOff : Eye} className="text-typography-400" />
 									</Button>
 								</InputSlot>
 							</Input>
@@ -128,29 +120,15 @@ export default function SignupScreen() {
 									className="pr-12"
 								/>
 								<InputSlot className="pr-4">
-									<Button 
-										variant="link" 
-										size="sm" 
-										onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-									>
-										<ButtonIcon 
-											as={showConfirmPassword ? EyeOff : Eye} 
-											className="text-typography-400" 
-										/>
+									<Button variant="link" size="sm" onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+										<ButtonIcon as={showConfirmPassword ? EyeOff : Eye} className="text-typography-400" />
 									</Button>
 								</InputSlot>
 							</Input>
 						</VStack>
 
-						<Button 
-							size="lg" 
-							className="shadow-soft-2 mt-4"
-							onPress={handleSignup}
-							disabled={loading}
-						>
-							<ButtonText className="font-semibold">
-								{loading ? "Creating Account..." : "Create Account"}
-							</ButtonText>
+						<Button size="lg" className="shadow-soft-2 mt-4" onPress={handleSignup} disabled={loading}>
+							<ButtonText className="font-semibold">{loading ? "Creating Account..." : "Create Account"}</ButtonText>
 						</Button>
 					</VStack>
 

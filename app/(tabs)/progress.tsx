@@ -1,3 +1,17 @@
+import { router } from "expo-router";
+import {
+	ArrowLeft,
+	Award,
+	ChartBar as BarChart3,
+	BookOpen,
+	Clock,
+	ListFilter as Filter,
+	Flame,
+	Target,
+	TrendingUp,
+	Trophy,
+} from "lucide-react-native";
+import { useState } from "react";
 import { Badge, BadgeText } from "@/components/ui/badge";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
@@ -8,14 +22,11 @@ import { Progress, ProgressFilledTrack } from "@/components/ui/progress";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { ArrowLeft, Award, BookOpen, Calendar, Clock, ListFilter as Filter, TrendingUp, Target, ChartBar as BarChart3, Trophy, Flame } from "lucide-react-native";
-import React, { useState } from "react";
-import { router } from "expo-router";
 
 export default function ProgressScreen() {
 	const [selectedTimeRange, setSelectedTimeRange] = useState("This Month");
 	const [selectedCategory, setSelectedCategory] = useState("All");
-	const [loading, setLoading] = useState(false);
+	const [_loading, _setLoading] = useState(false);
 
 	const timeRanges = ["This Week", "This Month", "Last 3 Months", "This Year"];
 	const categories = ["All", "Programming", "Design", "Business", "Data Science"];
@@ -27,7 +38,7 @@ export default function ProgressScreen() {
 		coursesFinished: 8,
 		currentStreak: 12,
 		weeklyGoal: 10,
-		weeklyProgress: 7
+		weeklyProgress: 7,
 	};
 
 	const weeklyData = [
@@ -37,35 +48,35 @@ export default function ProgressScreen() {
 		{ day: "Thu", hours: 0, completed: false },
 		{ day: "Fri", hours: 2.1, completed: true },
 		{ day: "Sat", hours: 1.5, completed: true },
-		{ day: "Sun", hours: 2.8, completed: true }
+		{ day: "Sun", hours: 2.8, completed: true },
 	];
 
 	const personalBests = [
 		{ title: "Longest Study Session", value: "4.5 hours", date: "Dec 15, 2024" },
 		{ title: "Most Courses in a Week", value: "3 courses", date: "Dec 10, 2024" },
 		{ title: "Current Learning Streak", value: "12 days", date: "Ongoing" },
-		{ title: "Fastest Course Completion", value: "2 days", date: "Dec 8, 2024" }
+		{ title: "Fastest Course Completion", value: "2 days", date: "Dec 8, 2024" },
 	];
 
 	const recentAchievements = [
 		{ title: "Week Warrior", description: "Completed 7 days of learning", icon: Trophy, color: "#fbbf24" },
 		{ title: "Course Crusher", description: "Finished 5 courses this month", icon: Award, color: "#10b981" },
 		{ title: "Time Master", description: "Studied for 20+ hours", icon: Clock, color: "#6366f1" },
-		{ title: "Streak Keeper", description: "10-day learning streak", icon: Flame, color: "#ef4444" }
+		{ title: "Streak Keeper", description: "10-day learning streak", icon: Flame, color: "#ef4444" },
 	];
 
 	const categoryProgress = [
 		{ name: "Programming", completed: 12, total: 15, progress: 80 },
 		{ name: "Design", completed: 8, total: 10, progress: 80 },
 		{ name: "Business", completed: 5, total: 8, progress: 62 },
-		{ name: "Data Science", completed: 3, total: 6, progress: 50 }
+		{ name: "Data Science", completed: 3, total: 6, progress: 50 },
 	];
 
 	const monthlyProgress = [
 		{ month: "Sep", hours: 32, courses: 2 },
 		{ month: "Oct", hours: 45, courses: 3 },
 		{ month: "Nov", hours: 38, courses: 2 },
-		{ month: "Dec", hours: 41, courses: 1 }
+		{ month: "Dec", hours: 41, courses: 1 },
 	];
 
 	return (
@@ -126,7 +137,9 @@ export default function ProgressScreen() {
 						{/* Overall Stats */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Overall Statistics</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Overall Statistics
+								</Heading>
 								<VStack space="sm">
 									<HStack space="md">
 										<Card className="flex-1 p-4 bg-primary-50 border-0">
@@ -176,9 +189,13 @@ export default function ProgressScreen() {
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
 								<HStack className="justify-between items-center">
-									<Heading size="lg" className="text-typography-900">Weekly Goal</Heading>
+									<Heading size="lg" className="text-typography-900">
+										Weekly Goal
+									</Heading>
 									<Badge action="info" variant="solid">
-										<BadgeText>{overallStats.weeklyProgress}/{overallStats.weeklyGoal} sessions</BadgeText>
+										<BadgeText>
+											{overallStats.weeklyProgress}/{overallStats.weeklyGoal} sessions
+										</BadgeText>
 									</Badge>
 								</HStack>
 								<VStack space="sm">
@@ -195,23 +212,21 @@ export default function ProgressScreen() {
 						{/* Weekly Activity Chart */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">This Week's Activity</Heading>
+								<Heading size="lg" className="text-typography-900">
+									This Week's Activity
+								</Heading>
 								<HStack space="sm" className="justify-between">
 									{weeklyData.map((day) => (
 										<VStack key={day.day} className="items-center flex-1">
-											<Box 
+											<Box
 												className={`w-8 h-16 rounded-lg ${
-													day.completed ? 'bg-primary-500' : 'bg-background-200'
+													day.completed ? "bg-primary-500" : "bg-background-200"
 												} mb-2 justify-end items-center pb-1`}
-												style={{ 
-													height: Math.max(16, (day.hours / 4) * 64) 
+												style={{
+													height: Math.max(16, (day.hours / 4) * 64),
 												}}
 											>
-												{day.hours > 0 && (
-													<Text className="text-xs text-typography-0 font-semibold">
-														{day.hours}h
-													</Text>
-												)}
+												{day.hours > 0 && <Text className="text-xs text-typography-0 font-semibold">{day.hours}h</Text>}
 											</Box>
 											<Text className="text-xs text-typography-600">{day.day}</Text>
 										</VStack>
@@ -223,7 +238,9 @@ export default function ProgressScreen() {
 						{/* Personal Bests */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Personal Bests</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Personal Bests
+								</Heading>
 								<VStack space="sm">
 									{personalBests.map((best, index) => (
 										<HStack key={index} className="justify-between items-center p-3 bg-background-50 rounded-lg">
@@ -243,11 +260,16 @@ export default function ProgressScreen() {
 						{/* Recent Achievements */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Recent Achievements</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Recent Achievements
+								</Heading>
 								<VStack space="sm">
 									{recentAchievements.map((achievement, index) => (
 										<HStack key={index} space="md" className="items-center p-3 bg-background-50 rounded-lg">
-											<Box className="w-10 h-10 rounded-full items-center justify-center" style={{ backgroundColor: achievement.color + '20' }}>
+											<Box
+												className="w-10 h-10 rounded-full items-center justify-center"
+												style={{ backgroundColor: `${achievement.color}20` }}
+											>
 												<achievement.icon size={20} color={achievement.color} />
 											</Box>
 											<VStack className="flex-1">
@@ -263,7 +285,9 @@ export default function ProgressScreen() {
 						{/* Category Progress */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Progress by Category</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Progress by Category
+								</Heading>
 								<VStack space="sm">
 									{categoryProgress.map((category) => (
 										<VStack key={category.name} space="xs">
@@ -285,7 +309,9 @@ export default function ProgressScreen() {
 						{/* Monthly Trends */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Monthly Trends</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Monthly Trends
+								</Heading>
 								<VStack space="sm">
 									{monthlyProgress.map((month) => (
 										<HStack key={month.month} className="justify-between items-center p-3 bg-background-50 rounded-lg">
@@ -309,7 +335,9 @@ export default function ProgressScreen() {
 						{/* Learning Insights */}
 						<Card className="p-5 shadow-soft-2">
 							<VStack space="md">
-								<Heading size="lg" className="text-typography-900">Learning Insights</Heading>
+								<Heading size="lg" className="text-typography-900">
+									Learning Insights
+								</Heading>
 								<VStack space="sm">
 									<HStack space="md" className="items-center p-3 bg-info-50 rounded-lg">
 										<TrendingUp size={20} color="#0ea5e9" />
@@ -322,14 +350,18 @@ export default function ProgressScreen() {
 										<Target size={20} color="#10b981" />
 										<VStack className="flex-1">
 											<Text className="text-sm font-semibold text-typography-900">Consistency Score</Text>
-											<Text className="text-xs text-typography-600">85% - You're doing great at maintaining regular study habits</Text>
+											<Text className="text-xs text-typography-600">
+												85% - You're doing great at maintaining regular study habits
+											</Text>
 										</VStack>
 									</HStack>
 									<HStack space="md" className="items-center p-3 bg-warning-50 rounded-lg">
 										<BarChart3 size={20} color="#f59e0b" />
 										<VStack className="flex-1">
 											<Text className="text-sm font-semibold text-typography-900">Improvement Area</Text>
-											<Text className="text-xs text-typography-600">Consider adding more Data Science courses to your routine</Text>
+											<Text className="text-xs text-typography-600">
+												Consider adding more Data Science courses to your routine
+											</Text>
 										</VStack>
 									</HStack>
 								</VStack>

@@ -1,3 +1,6 @@
+import { Image } from "expo-image";
+import { Clock, ListFilter as Filter, Search, Star, Users } from "lucide-react-native";
+import { useState } from "react";
 import { Box } from "@/components/ui/box";
 import { Button, ButtonIcon, ButtonText } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -7,9 +10,6 @@ import { Input, InputField, InputIcon, InputSlot } from "@/components/ui/input";
 import { ScrollView } from "@/components/ui/scroll-view";
 import { Text } from "@/components/ui/text";
 import { VStack } from "@/components/ui/vstack";
-import { Image } from "expo-image";
-import { Clock, ListFilter as Filter, Search, Star, Users } from "lucide-react-native";
-import React, { useState } from "react";
 
 export default function CoursesScreen() {
 	const [searchQuery, setSearchQuery] = useState("");

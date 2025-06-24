@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 import "@/global.css";
-import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
-import { AuthProvider } from "@/contexts/AuthContext";
-import { useFrameworkReady } from "@/hooks/useFrameworkReady";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
+import { GluestackUIProvider } from "@/components/ui/gluestack-ui-provider";
+import { AuthProvider } from "@/contexts/AuthContext";
+import { useFrameworkReady } from "@/hooks/useFrameworkReady";
 
 // Prevent the splash screen from auto-hiding
 SplashScreen.preventAutoHideAsync();
